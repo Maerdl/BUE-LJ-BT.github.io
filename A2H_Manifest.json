@@ -37,5 +37,6 @@
   "start_url": "index.html",
 
   "display": "standalone",
-  "background_color": "#7090b7"
+  "background_color": "#7090b7",
+  "theme-color": "#7090b7"
 }

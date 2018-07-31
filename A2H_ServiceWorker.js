@@ -28,3 +28,8 @@ self.addEventListener('fetch', function (e) {
         })
     );
 });
+
+self.addEventListener('beforinstallprompt', e => {
+    console.log(e.request.url);
+    console.log('__BEFOREINSTALLPROMPT_TRIGGERT__');
+});
