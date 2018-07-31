@@ -42,7 +42,8 @@ BLEConnectB.addEventListener('click', () => {
             BLESendT.value = '';
         })
         .catch(e => {
-            console.log("Bluetooth not availeable : " + e);
+            console.log('Bluetooth ERROR : ' + e);
+            BLEConnectB.innerHTML = e.toString();
         });
 });
 
