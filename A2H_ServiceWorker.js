@@ -32,4 +32,14 @@ self.addEventListener('fetch', function (e) {
 self.addEventListener('beforinstallprompt', e => {
     console.log(e.request.url);
     console.log('__BEFOREINSTALLPROMPT_TRIGGERT__');
+    e.prompt();
+    deferredPrompt.userChoice
+        .then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the A2HS prompt');
+            } else {
+                console.log('User dismissed the A2HS prompt');
+            }
+            deferredPrompt = null;
+        });
 });
