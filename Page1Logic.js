@@ -40,6 +40,9 @@ BLEConnectB.addEventListener('click', () => {
             BLEConnectB.hidden = true;
             BLENameLabel.innerHTML = BLE.getDeviceName() ? BLE.getDeviceName() : 'No Name';
             BLESendT.value = '';
+        })
+        .catch(e => {
+            console.log("Bluetooth not availeable : " + e);
         });
 });
 
