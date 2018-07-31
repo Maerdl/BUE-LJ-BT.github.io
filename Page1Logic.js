@@ -56,6 +56,14 @@ BLEDisconnectB.addEventListener('click', () => {
     BLENameLabel.innerHTML = '';
 });
 
+// send data to device by pressing enter
+BLESendT.addEventListener('keyup', e => {
+    e.preventDefault();
+    if (e.keyCode === 13) {
+        BLESendB.click();
+    }
+});
+
 // send data to device
 BLESendB.addEventListener('click', () => {
     logToTerminal(('OUT :&emsp;' + BLESendT.value), 'out');
