@@ -1,0 +1,107 @@
+﻿/*BEGIN-------------ALL--------------------*/
+* {
+    font-family : Arial;
+    box-sizing : border-box;
+}
+body{
+    margin: 0,0,0,0;
+}
+:root {
+    --Main-Background-Color : white;
+    --Main-Text-Color       : black;
+    --Buerkert-Blue         : #7090b7;
+    --Buerkert-Blue-light   : #8db2e0;
+    --Buerkert-Blue-dark    : #516782;
+}
+/*END---------------ALL--------------------*/
+
+/*BEGIN-------------HEADER-----------------*/
+.Header {
+    padding : 1vw;
+    overflow : hidden;
+}
+.Header img {
+    width : 15%;
+    min-width : 150px;
+    max-width : 25%;
+    line-height : 50px;
+    float : left;
+    display : block;
+}
+.Header h1 {
+    font-size : calc( 1vw + 35px );
+    background-color : var(--Main-Background-Color);
+    color : var(--Main-Text-Color);
+    text-align : center;
+}
+/*END---------------HEADER-----------------*/
+
+/*BEGIN-------------Navigation-------------*/
+.NavMenu {
+    overflow : hidden;
+    background-color : var(--Buerkert-Blue) ;
+    text-align : center;
+}
+.NavMenu a{
+    float : left;
+    display : block;
+    color : white;
+    text-align : center;
+    padding : 14px 16px;
+    text-decoration : none;
+    width : 50%;
+}
+.NavMenu a:hover {
+    background-color : var(--Buerkert-Blue-light);
+}
+.activeTab {
+    background-color: var(--Buerkert-Blue-dark);
+    pointer-events: none;
+}
+/*END---------------Navigation-------------*/
+
+/*BEGIN-------------Main-------------------*/
+/*.Main {
+
+}*/
+.Main button {
+    background-color: var(--Buerkert-Blue);
+    border: none;
+    color: white;
+    height: calc( 1vw + 35px );
+    font-size: calc(0.5vw + 17px);
+    float: left;
+}
+.Main button:hover{
+    background-color: var(--Buerkert-Blue-light);
+}
+.Terminal {
+    background-color: var(--Main-Background-Color);
+    width:100%;
+    height:250px;
+    outline:solid;
+    overflow-x:hidden;
+    overflow-y:scroll;
+}
+/*---terminal message types---*/
+.out{
+    color:blue;
+}
+.in{
+    color:darkblue;
+}
+.err{
+    color: red;
+}
+/*END---------------Main-------------------*/
+
+/*BEGIN-------------Footer-----------------*/
+/*.Footer{
+
+}*/
+.Footer a{
+    width:22px;
+    height:22px;
+    float:left;
+}
+/*END---------------Footer-----------------*/
