@@ -41,10 +41,12 @@ BLEConnectB.addEventListener('click', () => {
             BLEConnectB.hidden = true;
             BLENameLabel.innerHTML = BLE.getDeviceName() ? BLE.getDeviceName() : 'No Name';
             BLESendT.value = '';
+            logToTerminal('Connected to : ' + BLENameLabel.innerHTML, 'info');
         })
         .catch(e => {
             console.log('Bluetooth ERROR : ' + e);
             BLEConnectB.innerHTML = e.toString();
+            logToTerminal(e.toString(), 'err');
         });
 });
 
@@ -53,6 +55,7 @@ BLEDisconnectB.addEventListener('click', () => {
     BLE.disconnect();
     document.getElementById('IfConnected').hidden = true;
     BLEConnectB.hidden = false;
+    logToTerminal('Manual disconnect from : ' + BLENameLabel.innerHTML, 'info');
     BLENameLabel.innerHTML = '';
 });
 

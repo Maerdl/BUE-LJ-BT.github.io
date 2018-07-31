@@ -95,6 +95,9 @@ body{
 .err{
     color: red;
 }
+.info{
+     color: yellow;
+ }
 /*END---------------Main-------------------*/
 
 /*BEGIN-------------Footer-----------------*/
