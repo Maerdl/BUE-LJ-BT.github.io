@@ -20,7 +20,7 @@ body{
     padding : 1vw;
     overflow : hidden;
 }
-.Header img {
+.Header a img {
     width : 15%;
     min-width : 150px;
     max-width : 25%;
