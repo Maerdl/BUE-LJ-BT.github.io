@@ -7,11 +7,11 @@ body{
     margin: 0,0,0,0;
 }
 :root {
-    --Main-Background-Color : white;
-    --Main-Text-Color       : black;
-    --Buerkert-Blue         : #7090b7;
-    --Buerkert-Blue-light   : #8db2e0;
-    --Buerkert-Blue-dark    : #516782;
+    --Main-Background-Color:white;
+    --Main-Text-Color:black;
+    --Buerkert-Blue:#7090b7;
+    --Buerkert-Blue-light:#8db2e0;
+    --Buerkert-Blue-dark:#516782;
 }
 /*END---------------ALL--------------------*/
 
