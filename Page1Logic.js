@@ -69,9 +69,9 @@ BLESendT.addEventListener('keyup', e => {
 
 // send data to device
 BLESendB.addEventListener('click', () => {
-    //    logToTerminal(('OUT :&emsp;' + BLESendT.value), 'out');
-    //    BLE.send(BLESendT.value);
-    //    BLESendT.value = '';
+    logToTerminal(('OUT :&emsp;' + BLESendT.value), 'out');
+    BLE.send(BLESendT.value);
+    BLESendT.value = '';
     //    BLESendT.focus();
 
 
@@ -253,6 +253,13 @@ BLESendB.addEventListener('click', () => {
 // recive handler
 BLE.receive = function (data) {
     logToTerminal(BLENameLabel.innerHTML + ' :&emsp;' + data, 'in');
+    var buffer = data.split(',');
+
+    var root = protobuf.parse(proto).root;
+    var AddNode = root.lookupType("CanOpenBridge.AddNode");
+
+    var message2 = AddNode.decode(buffer);
+    logToTerminal(BLENameLabel.innerHTML + ' decode :&emsp;' + message2, 'in');
 };
 
 /*END-----------------Bluetooth-------------------------------------------------------*/
