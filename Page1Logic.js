@@ -247,7 +247,8 @@ BLESendB.addEventListener('click', () => {
 
     logToTerminal(('Buffer :&emsp;' + buffer), 'out');
     BLE.send(buffer);
-    BLESendT.value = '';  
+    BLESendT.value = '';
+});
 
 // recive handler
 BLE.receive = function (data) {
