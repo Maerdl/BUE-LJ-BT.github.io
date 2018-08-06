@@ -76,7 +76,66 @@ BLESendB.addEventListener('click', () => {
 
 
 
-    /*var proto = `
+    var proto = GetProto();
+    var root = protobuf.parse(proto).root;
+
+    // Obtain a message type
+    var AddNode = root.lookupType("CanOpenBridge.AddNode");
+
+    // Exemplary payload
+    var payload = {
+        nodeId: 18,
+        deviceStatus: 12
+    };
+
+    // Verify the payload if necessary (i.e. when possibly incomplete or invalid)
+    var errMsg = AddNode.verify(payload);
+    if (errMsg)
+        throw Error(errMsg);
+
+    // Create a new message
+    var message = AddNode.create(payload); // or use .fromObject if conversion is necessary
+
+    // Encode a message to an Uint8Array (browser) or Buffer (node)
+    var buffer = AddNode.encode(message).finish();
+    // ... do something with buffer
+
+    // Decode an Uint8Array (browser) or Buffer (node) to a message
+    var message2 = AddNode.decode(buffer);
+    // ... do something with message
+
+    // If the application uses length-delimited buffers, there is also encodeDelimited and decodeDelimited.
+
+    // Maybe convert the message back to a plain object
+    /*var object = PDO.toObject(message, {
+        longs: String,
+        enums: String,
+        bytes: String,
+        // see ConversionOptions
+    });*/
+
+
+
+
+    logToTerminal(('Buffer :&emsp;' + buffer), 'out');
+    BLE.send(buffer);
+    BLESendT.value = '';
+});
+
+// recive handler
+BLE.receive = function (data) {
+    logToTerminal(BLENameLabel.innerHTML + ' :&emsp;' + data, 'in');
+    var buffer = data.split(',');
+
+    var root = protobuf.parse(proto).root;
+    var AddNode = root.lookupType("CanOpenBridge.AddNode");
+
+    var message2 = AddNode.decode(buffer);
+    logToTerminal(BLENameLabel.innerHTML + ' decode :&emsp;' + message2, 'in');
+};
+
+function GetProto() {
+    return `
         // See README.txt for information and build instructions.
 
         package CanOpenBridge;
@@ -206,66 +265,5 @@ BLESendB.addEventListener('click', () => {
         required int32 canLFall = 5;
         }
 		`;
-
-    var root = protobuf.parse(proto).root;*/
-    
-    protobuf.load("protobuf/CanOpenBridge.proto", function (err, root) {
-        if (err)
-            throw err;
-        // Obtain a message type
-        var AddNode = root.lookupType("CanOpenBridge.AddNode");
-
-        // Exemplary payload
-        var payload = {
-            nodeId: 18,
-            deviceStatus: 12
-        };
-
-        // Verify the payload if necessary (i.e. when possibly incomplete or invalid)
-        var errMsg = AddNode.verify(payload);
-        if (errMsg)
-            throw Error(errMsg);
-
-        // Create a new message
-        var message = AddNode.create(payload); // or use .fromObject if conversion is necessary
-
-        // Encode a message to an Uint8Array (browser) or Buffer (node)
-        var buffer = AddNode.encode(message).finish();
-        // ... do something with buffer
-
-        // Decode an Uint8Array (browser) or Buffer (node) to a message
-        var message2 = AddNode.decode(buffer);
-        // ... do something with message
-
-        // If the application uses length-delimited buffers, there is also encodeDelimited and decodeDelimited.
-
-        // Maybe convert the message back to a plain object
-        /*var object = PDO.toObject(message, {
-            longs: String,
-            enums: String,
-            bytes: String,
-            // see ConversionOptions
-        });*/
-    });
-
-
-
-
-    logToTerminal(('Buffer :&emsp;' + buffer), 'out');
-    BLE.send(buffer);
-    BLESendT.value = '';
-});
-
-// recive handler
-BLE.receive = function (data) {
-    logToTerminal(BLENameLabel.innerHTML + ' :&emsp;' + data, 'in');
-    var buffer = data.split(',');
-
-    var root = protobuf.parse(proto).root;
-    var AddNode = root.lookupType("CanOpenBridge.AddNode");
-
-    var message2 = AddNode.decode(buffer);
-    logToTerminal(BLENameLabel.innerHTML + ' decode :&emsp;' + message2, 'in');
-};
-
+}
 /*END-----------------Bluetooth-------------------------------------------------------*/

@@ -10,8 +10,7 @@ self.addEventListener('install', function (e) {
                 'StyleSheet.css',
                 'Page1Logic.js',
                 'BluetoothTerminal.js',
-                'protobuf/protobuf.js',
-                'protobuf/CANopenBridge.proto'
+                'protobuf/protobuf.js'
             ]).then(function (cache) {
                 self.skipWaiting();
             });
