@@ -393,6 +393,64 @@ class BluetoothTerminal {
   static _splitByLength(string, length) {
     return string.match(new RegExp('(.|[\r\n]){1,' + length + '}', 'g'));
   }
+
+
+
+
+    // Eigene Module
+    /**
+ * Send data to the connected device.
+ * @param {byte} data - Data
+ * @return {Promise} Promise which will be fulfilled when data will be sent or
+ *                   rejected if something went wrong
+ */
+    sendByte(data) {
+        // Return rejected promise immediately if data is empty.
+        if (!data) {
+            return Promise.reject('Data must be not empty');
+        }
+
+        // Add seperator                    // TODO
+        //data += this._sendSeparator;
+
+
+        if (!(data instanceof Uint8Array)) {
+            return Promis.reject('Data must be Uint8Array')
+        }
+
+
+        // Split data to chunks by max characteristic value length.
+        /*let chunks = this.constructor._splitByLength(data,
+            this._maxCharacteristicValueLength);
+            */
+
+        // Return rejected promise immediately if there is no connected device.
+        if (!this._characteristic) {
+            return Promise.reject('There is no connected device');
+        }
+
+        // Write first chunk to the characteristic immediately.
+        var ShortArray = Buffer.from(data ,0 ,20);
+        let promise = this._writeToCharacteristic(this._characteristic, chunks[0]);
+
+        // Iterate over chunks if there are more than one of it.
+        for (let i = 1; i < chunks.length; i++) {
+            // Chain new promise.
+            promise = promise.then(() => new Promise((resolve, reject) => {
+                // Reject promise if the device has been disconnected.
+                if (!this._characteristic) {
+                    reject('Device has been disconnected');
+                }
+
+                // Write chunk to the characteristic and resolve the promise.
+                this._writeToCharacteristic(this._characteristic, chunks[i]).
+                    then(resolve).
+                    catch(reject);
+            }));
+        }
+
+        return promise;
+    }
 }
 
 // Export class as a module to support requiring.
