@@ -119,6 +119,7 @@ BLESendB.addEventListener('click', () => {
 
     logToTerminal(('Buffer :&emsp;' + buffer), 'out');
     BLE.send(buffer);
+    BLE.sendByte(buffer);
     BLESendT.value = '';
 });
 
