@@ -11,8 +11,6 @@ self.addEventListener('install', function (e) {
                 'Page1Logic.js',
                 'BluetoothTerminal.js',
                 'protobuf/protobuf.js',
-                'protobuf/long.js',
-                'protobuf/bytebuffer.js',
                 'protobuf/CANopenBridge.proto'
             ]).then(function (cache) {
                 self.skipWaiting();
