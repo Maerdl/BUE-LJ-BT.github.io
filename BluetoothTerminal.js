@@ -419,10 +419,11 @@ class BluetoothTerminal {
         }
 
 
-        // Split data to chunks by max characteristic value length.
-        /*let chunks = this.constructor._splitByLength(data,
-            this._maxCharacteristicValueLength);
-            */
+        // Split data to chunks by max characteristic value length (this._maxCharacteristicValueLength).
+        var chunks = [], i;
+        for (i = 0; i < data.length; i += this._maxCharacteristicValueLength){
+            chunks.push(data.slice(i, i + this._maxCharacteristicValueLength));
+        }
 
         // Return rejected promise immediately if there is no connected device.
         if (!this._characteristic) {
@@ -430,7 +431,6 @@ class BluetoothTerminal {
         }
 
         // Write first chunk to the characteristic immediately.
-        var ShortArray = Buffer.from(data ,0 ,20);
         let promise = this._writeToCharacteristic(this._characteristic, chunks[0]);
 
         // Iterate over chunks if there are more than one of it.
