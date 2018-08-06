@@ -119,7 +119,18 @@ BLESendB.addEventListener('click', () => {
 
     logToTerminal(('Buffer :&emsp;' + buffer), 'out');
     BLE.send(buffer);
-    BLE.sendByte(buffer);
+    var buf = new Uint8Array(45);
+    for(var x = 0; x < buf.length ; x++) buf[x] = x+65;
+    buf[0] = 48;
+    buf[5] = 49;
+    buf[10] = 50;
+    buf[15] = 51;
+    buf[20] = 52;
+    buf[25] = 53;
+    buf[30] = 54;
+    buf[35] = 55;
+    buf[40] = 56;
+    BLE.sendByte(buf);
     BLESendT.value = '';
 });
 
