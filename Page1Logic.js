@@ -70,7 +70,7 @@ BLESendT.addEventListener('keyup', e => {
 // send data to device
 BLESendB.addEventListener('click', () => {
     logToTerminal(('OUT :&emsp;' + BLESendT.value), 'out');
-    BLE.send(BLESendT.value);
+    //BLE.send(BLESendT.value);
     BLESendT.value = '';
     //    BLESendT.focus();
 
@@ -118,7 +118,7 @@ BLESendB.addEventListener('click', () => {
 
 
     logToTerminal(('Buffer :&emsp;' + buffer), 'out');
-    BLE.send(buffer);
+   //BLE.send(buffer);
     BLE.sendByte(buffer);
     BLESendT.value = '';
 });
