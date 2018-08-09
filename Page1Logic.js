@@ -135,6 +135,8 @@ BLE.receive = function (data) {
     logToTerminal(BLENameLabel.innerHTML + ' decode :&emsp;' + message2, 'in');
 };
 
+
+// file wont be installd to homescreen but variable does
 function GetProto() {
     return `
         // See README.txt for information and build instructions.

@@ -448,9 +448,7 @@ class BluetoothTerminal {
                     catch(reject);
             }));
         }
-        promise.then(e => {
-            return promise;
-        }); 
+        return promise;  
     }
 }
 
