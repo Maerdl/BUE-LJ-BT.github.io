@@ -131,8 +131,12 @@ BLE.receive = function (data) {
     var root = protobuf.parse(GetProto()).root;
     var AddNode = root.lookupType("CanOpenBridge.AddNode");
 
-    var message2 = AddNode.decode(buffer);
-    logToTerminal(BLENameLabel.innerHTML + ' decode :&emsp;' + message2, 'in');
+   try{
+	var message2 = AddNode.decode(buffer);
+	logToTerminal(BLENameLabel.innerHTML + ' decode :&emsp;' + message2, 'in');
+   } catch{
+	console.log('Not a valide protobuf message');
+   }   
 };
 
 
