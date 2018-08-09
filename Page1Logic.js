@@ -11,12 +11,12 @@ if ('serviceWorker' in navigator) {
 
 /*BEGIN-----------------bluetooth-------------------------------------------------------*/
 // Get the controll Elements
-const BLEConnectB   = document.getElementById('Connect');
+const BLEConnectB = document.getElementById('Connect');
 const BLEDisconnectB = document.getElementById('Disconnect');
-const BLESendT      = document.getElementById('SendData');
-const BLESendB      = document.getElementById('SendButton');
-const BLENameLabel  = document.getElementById('DevName');
-const BLETerminal   = document.getElementById('Terminal');
+const BLESendT = document.getElementById('SendData');
+const BLESendB = document.getElementById('SendButton');
+const BLENameLabel = document.getElementById('DevName');
+const BLETerminal = document.getElementById('Terminal');
 
 let BLE = new BluetoothTerminal();
 
@@ -28,7 +28,7 @@ const scrollElement = (element) => {
 
 // log data to terminal
 const logToTerminal = (message, type = '') => {
-    BLETerminal.insertAdjacentHTML('beforeend',`<div${type && ` class="${type}"`}>${message}</div>`);
+    BLETerminal.insertAdjacentHTML('beforeend', `<div${type && ` class="${type}"`}>${message}</div>`);
     scrollElement(BLETerminal);
 };
 
@@ -78,8 +78,6 @@ BLESendB.addEventListener('click', () => {
 
     var proto = GetProto();
     var root = protobuf.parse(proto).root;
-
-    // Obtain a message type
     var AddNode = root.lookupType("CanOpenBridge.AddNode");
 
     // Exemplary payload
@@ -87,39 +85,24 @@ BLESendB.addEventListener('click', () => {
         nodeId: 18,
         deviceStatus: 12
     };
-
-    // Verify the payload if necessary (i.e. when possibly incomplete or invalid)
     var errMsg = AddNode.verify(payload);
     if (errMsg)
         throw Error(errMsg);
-
-    // Create a new message
-    var message = AddNode.create(payload); // or use .fromObject if conversion is necessary
-
-    // Encode a message to an Uint8Array (browser) or Buffer (node)
+    var message = AddNode.create(payload);
     var buffer = AddNode.encode(message).finish();
-    // ... do something with buffer
 
-    // Decode an Uint8Array (browser) or Buffer (node) to a message
+
+    // Decode Again (For Test)
     var message2 = AddNode.decode(buffer);
-    // ... do something with message
 
-    // If the application uses length-delimited buffers, there is also encodeDelimited and decodeDelimited.
-
-    // Maybe convert the message back to a plain object
-    /*var object = PDO.toObject(message, {
-        longs: String,
-        enums: String,
-        bytes: String,
-        // see ConversionOptions
-    });*/
 
 
 
 
     logToTerminal(('Buffer :&emsp;' + buffer), 'out');
-   //BLE.send(buffer);
+    //BLE.send(buffer);
     BLE.sendByte(buffer);
+    logToTerminal(JSON.stringify(message2), 'out');
     BLESendT.value = '';
 });
 
@@ -137,7 +120,7 @@ BLE.receive = function (data) {
     } catch{
         logToTerminal(BLENameLabel.innerHTML + 'No Valid Protobuf');
         console.log('Not a valide protobuf message');
-    }    
+    }
 };
 
 
