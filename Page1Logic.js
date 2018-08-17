@@ -118,7 +118,7 @@ BLE.receive = function (data) {
         var x = 0;
         var MessageWrapper = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge.MessageWrapper");
         try {
-            var Outermessage = MessageWrapper.decode(data);
+            var Outermessage = MessageWrapper.decode(unpack(data));
         } catch{
             alert("Incoming message can't be decoded");
             throw Error("Incoming message can't be decoded");
@@ -204,6 +204,15 @@ function FormularPBFunction(Formular) {
     return false;
 }
 
+function unpack(str) {
+    var bytes = [];
+    for (var i = 0; i < str.length; i++) {
+        var char = str.charCodeAt(i);
+        bytes.push(char >>> 8);
+        bytes.push(char & 0xFF);
+    }
+    return bytes;
+}
 
 // file wont be installd to homescreen but function does
 function GetProto() {
