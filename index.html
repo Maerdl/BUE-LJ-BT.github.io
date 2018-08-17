@@ -39,13 +39,143 @@
     <div class="Main">
         <h1>BLE Connect</h1>
         <button type="button" id="Connect" style="width:100%">Connect</button>
-        <div id="IfConnected" hidden="hidden">
-            <button type="button" id="Disconnect" style="width:50%">Disconnect</button>
-            <p id="DevName" style="width:50%;text-align:center;float:left"></p>
-            <p><br /></p>
-            <div class="Terminal" id="Terminal"></div>
-            <input type="text" id="SendData" style="width:75%;float:left" autocomplete="off" placeholder="Send THIS..." />
-            <button type="button" id="SendButton" style="width:25%;float:left">Send</button>
+        <div id="IfConnected"><!--hidden="hidden"-->
+            <button type="button" id="Disconnect" style="width:100%">Disconnect</button>
+            <button id="GUIButton" style="width:50%;float:left">GUI</button>
+            <button id="TerminalButton" style="width:50%;float:left">Terminal</button>
+
+            <div class="GUIContainer" id="GUIContainer">
+                <select id="PBList" style="width:100%">
+                    <option>SDO</option>
+                    <option>PDO</option>
+                    <option>Event</option>
+                    <option>AddNote</option>
+                    <option>RemoveNode</option>
+                    <option>Command</option>
+                    <option>SYNC</option>
+                    <option>SdoProcess</option>
+                    <option>Request</option>
+                    <option>RequestProcess</option>
+                    <option>RawData</option>
+                    <option>CanMeasure</option>
+                </select>
+                <form id="SDO" onsubmit="FormularPBFunction(this)">
+                    <p>nodeID</p><input name="nodeId" type="number" min="0" required />
+                    <p>index</p><input name="index" type="number" min="0" required />
+                    <p>subIndex</p><input name="subIndex" type="number" min="0" required>
+                    <p>control</p>
+                    <select name="control" required>
+                        <option value="0">READ</option>
+                        <option value="1">WRITE</option>
+                        <option value="2">RESPONSE</option>
+                        <option value="3">ABORT</option>
+                        <option value="4">READ_BLOCK</option>
+                        <option value="5">WRITE_BLOCK</option>
+                    </select>
+                    <p>data</p><input name="data" />
+                    <p>totalBlockLen</p><input name="totalBlockLen" type="number" min="0" />
+                    <p>timestamp</p><input name="timestamp" type="number" min="0" />
+                    <input type="submit" value="Submit">
+                </form>
+                <form id="PDO" onsubmit="FormularPBFunction(this)" hidden="hidden">
+                    <p>nodeID</p><input name="nodeId" type="number" min="0" required />
+                    <p>pdoNumber</p><input name="pdoNumber" type="number" min="0" required />
+                    <p>data</p><input name="data" required />
+                    <p>timestamp</p><input name="timestamp" type="number" min="0" required />
+                    <input type="submit" value="Submit">
+                </form>
+                <form id="Event" onsubmit="FormularPBFunction(this)" hidden="hidden">
+                    <p>nodeID</p><input name="nodeId" type="number" min="0" required />
+                    <p>data</p><input name="data" required />
+                    <p>timestamp</p><input name="timestamp" type="number" min="0" required />
+                    <p>eventType</p>
+                    <select name="eventType" required>
+                        <option value="0">EMERGENCY</option>
+                        <option value="1">BDO</option>
+                        <option value="2">SERVERINFO</option>
+                        <option value="3">SERVERERROR</option>
+                        <option value="4">NMT</option>
+                    </select>
+                    <input type="submit" value="Submit">
+                </form>
+                <form id="AddNote" hidden="hidden">
+                    <p>nodeID</p><input name="nodeId" type="number" min="0" required />
+                    <p>deviceStatus</p><input name="deviceStatus" type="number" min="0" />
+                    <input type="submit" value="Submit">
+                </form>
+                <form id="RemoveNode" hidden="hidden">
+                    <p>nodeID</p><input name="nodeId" type="number" min="0" required />
+                    <input type="submit" value="Submit">
+                </form>
+                <form id="Command" hidden="hidden">
+                    <p>eventType</p>
+                    <select name="eventType" required>
+                        <option value="0">SHUTDOWN</option>
+                        <option value="1">RESTART_SOCKET</option>
+                    </select>
+                    <input type="submit" value="Submit">
+                </form>
+                <form id="SYNC" hidden="hidden">
+                    <p>flags</p><input name="flags" type="number" min="0" required />
+                    <input type="submit" value="Submit">
+                </form>
+                <form id="SdoProcess" hidden="hidden">
+                    <p>nodeID</p><input name="nodeId" type="number" min="0" required />
+                    <p>index</p><input name="index" type="number" min="0" required />
+                    <p>subIndex</p><input name="subIndex" type="number" min="0" required>
+                    <p>value</p><input name="value" type="number" min="0" required>
+                </form>
+                <form id="Request" hidden="hidden">
+                    <p>requestType</p>
+                    <select name="requestType" required>
+                        <option value="0">Complete</option>
+                        <option value="1">SearchCANopenDevices</option>
+                        <option value="2">GetLSS_Slave</option>
+                        <option value="3">CnfLSS_Slave</option>
+                        <option value="4">CanRawData</option>
+                        <option value="5">CanMeasure</option>
+                    </select>
+                    <p>nodeID</p><input name="nodeId" type="number" min="0" />
+                    <p>baudrate</p><input name="baudrate" type="number" min="0" />
+                    <p>result</p><input name="result" type="number" min="0" />
+                    <p>vendorID</p><input name="vendorID" type="number" min="0" />
+                    <p>productCode</p><input name="productCode" type="number" min="0" />
+                    <p>revisionNumber</p><input name="revisionNumber" type="number" min="0" />
+                    <p>serialNumber</p><input name="serialNumber" type="number" min="0" />
+                    <p>rawDataActive</p><input name="rawDataActive" type="number" min="0" />
+                    <p>canMeasureActive</p><input name="canMeasureActive" type="number" min="0" />
+                    <input type="submit" value="Submit">
+                </form>
+                <form id="RequestProcess" hidden="hidden">
+                    <p>value</p><input name="value" type="number" min="0" required>
+                    <input type="submit" value="Submit">
+                </form>
+                <form id="RawData" hidden="hidden">
+                    <p>cobId</p><input name="cobId" type="number" min="0" required />
+                    <p>data</p><input name="data" required />
+                    <p>timeStamp</p><input name="timeStamp" type="number" min="0" required>
+                    <p>direction</p><input name="direction" type="radio" required>
+                    <input type="submit" value="Submit">
+                </form>
+                <form id="CanMeasure" hidden="hidden">
+                    <p>errorFlags</p><input name="errorFlags" type="number" min="0" required />
+                    <p>canHRise</p><input name="canHRise" type="number" min="0" required />
+                    <p>canHFall</p><input name="canHFall" type="number" min="0" required>
+                    <p>canLRise</p><input name="canLRise" type="number" min="0" required>
+                    <p>canLFall</p><input name="canLFall" type="number" min="0" required>
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+
+
+            <div id="TerminalContainer" hidden="hidden">
+                
+                <p id="DevName" style="width:100%;text-align:center;"></p>
+                <p><br /></p>
+                <div class="Terminal" id="Terminal"></div>
+                <input type="text" id="SendData" style="width:75%;float:left" autocomplete="off" placeholder="Send THIS..." />
+                <button type="button" id="SendButton" style="width:25%;float:left">Send</button>
+            </div>
         </div>
         <p><br /><br /></p>
     </div>

@@ -17,7 +17,7 @@ const BLESendT = document.getElementById('SendData');
 const BLESendB = document.getElementById('SendButton');
 const BLENameLabel = document.getElementById('DevName');
 const BLETerminal = document.getElementById('Terminal');
-
+const PBMC = document.getElementById('PBList');
 let BLE = new BluetoothTerminal();
 
 // Scroll the Terminal down
@@ -59,7 +59,13 @@ BLEDisconnectB.addEventListener('click', () => {
     BLENameLabel.innerHTML = '';
 });
 
-// send data to device by pressing enter
+PBMC.addEventListener('change', () => {
+    var i;
+    for (i = 0; i < (PBMC.length - 1); i++)document.getElementById(PBMC.options[i].text).hidden = true;
+    document.getElementById(PBMC.options[PBMC.selectedIndex].text).hidden = false;
+});
+
+// send data to device by pressing enter (Terminal)
 BLESendT.addEventListener('keyup', e => {
     e.preventDefault();
     if (e.keyCode === 13) { //  13^=\n 
@@ -67,17 +73,15 @@ BLESendT.addEventListener('keyup', e => {
     }
 });
 
-// send data to device
+// send data to device  (Terminal)
 BLESendB.addEventListener('click', () => {
     logToTerminal(('OUT :&emsp;' + BLESendT.value), 'out');
-    //BLE.send(BLESendT.value);
+    BLE.send(BLESendT.value);
     BLESendT.value = '';
-    //    BLESendT.focus();
+    BLESendT.focus();
 
-
-
-    var proto = GetProto();
-    var root = protobuf.parse(proto).root;
+    /*
+    var root = protobuf.parse(GetProto()).root;
     var AddNode = root.lookupType("CanOpenBridge.AddNode");
 
     // Exemplary payload
@@ -103,28 +107,106 @@ BLESendB.addEventListener('click', () => {
     //BLE.send(buffer);
     BLE.sendByte(buffer);
     logToTerminal(JSON.stringify(message2), 'out');
-    BLESendT.value = '';
+    BLESendT.value = '';*/
 });
 
-// recive handler
+// recive handler (Terminal)
 BLE.receive = function (data) {
-    logToTerminal(BLENameLabel.innerHTML + ' :&emsp;' + data, 'in');
-    var buffer = data.split(',');
 
-    var root = protobuf.parse(GetProto()).root;
-    var AddNode = root.lookupType("CanOpenBridge.AddNode");
+    
+    if (document.getElementById('GUIContainer').hidden == false) {
+        var x = 0;
+        var MessageWrapper = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge.MessageWrapper");
+        try {
+            var Outermessage = MessageWrapper.decode(data);
+        } catch{
+            alert("Incoming message can't be decoded");
+            throw Error("Incoming message can't be decoded");
+        }
+        var GUICont = document.getElementById('GUIContainer');
+        for (x = 0; x < GUICont.childElementCount; x++) {
+            if (GUICont.children[x].nodeName == "FORM") {
+                if (Outermessage[GUICont.children[x].id]) {
+                    debugger;
+                    var Innermessage = Outermessage[GUICont.children[x].id];
+                    var text = "";
 
-    try {
-        var message2 = AddNode.decode(buffer);
-        logToTerminal(BLENameLabel.innerHTML + 'Protobuf Decoded');
-    } catch{
-        logToTerminal(BLENameLabel.innerHTML + 'No Valid Protobuf');
-        console.log('Not a valide protobuf message');
+                    for (var key in Innermessage) {
+                        debugger;
+                        if (key != "constructor" && key != "toJSON" && key != "$type") text = text + key + " : " + Innermessage[key] + " ;\n";
+                    }
+
+                    alert("Decoded protobuf: \n\n" + text);
+                    break;
+                }
+            }
+        }
+    } else if (document.getElementById('TerminalContainer').hidden == false) {
+        logToTerminal(BLENameLabel.innerHTML + ' :&emsp;' + data, 'in');
+        var buffer = data.split(',');
+
+        var root = protobuf.parse(GetProto()).root;
+        var AddNode = root.lookupType("CanOpenBridge.AddNode");
+
+        try {
+            var message2 = AddNode.decode(buffer);
+            logToTerminal(BLENameLabel.innerHTML + 'Protobuf Decoded');
+        } catch{
+            logToTerminal(BLENameLabel.innerHTML + 'No Valid Protobuf');
+            console.log('Not a valide protobuf message');
+        }
     }
 };
 
+/*END-----------------Bluetooth-------------------------------------------------------*/
 
-// file wont be installd to homescreen but variable does
+function FormularPBFunction(Formular) {
+debugger;
+    var PBTitle = '' + Formular.id;
+    var InnerMessage = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge." + PBTitle);
+    var n = 0;
+    var payload = [];
+
+debugger;
+
+    for (n = 0; n < Formular.length; n++) {
+        if (Formular[n].value == null || Formular[n].value == "") {
+            // Do nothing
+        } else if (Formular[n].type == "number") {
+            payload[Formular[n].name] = Formular[n].valueAsNumber
+        } else if (Formular[n].type == "text") {
+            payload[Formular[n].name] = Formular[n].value;
+        } else if (Formular[n].type == "select-one") {
+            payload[Formular[n].name] = parseInt(Formular[n].value);
+        }
+    }
+debugger;
+    var errMsg = InnerMessage.verify(payload);
+    if (errMsg) {
+        debugger;
+        throw Error(errMsg);
+    }
+
+    var Outerpayload = [];
+    Outerpayload[PBTitle] = InnerMessage.create(payload);
+
+    var MessageWrapper = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge.MessageWrapper");
+    errMsg = MessageWrapper.verify(Outerpayload);
+    if (errMsg) {
+        alert("ERROR/n" + errMsg);
+        throw Error(errMsg);
+    }
+    var omessage = MessageWrapper.create(Outerpayload);
+    var buffer = MessageWrapper.encode(omessage).finish();
+    //alert("buffer" + buffer);
+    BLE.sendByte(buffer);
+
+
+
+}
+
+
+// file wont be installd to homescreen but function does
 function GetProto() {
     return `
         // See README.txt for information and build instructions.
@@ -257,4 +339,3 @@ function GetProto() {
         }
 		`;
 }
-/*END-----------------Bluetooth-------------------------------------------------------*/
