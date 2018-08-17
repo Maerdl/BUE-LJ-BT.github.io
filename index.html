@@ -39,7 +39,7 @@
     <div class="Main">
         <h1>BLE Connect</h1>
         <button type="button" id="Connect" style="width:100%">Connect</button>
-        <div id="IfConnected" hidden="hidden">
+        <div id="IfConnected"><!--hidden="hidden"-->
             <button type="button" id="Disconnect" style="width:100%">Disconnect</button>
             <button id="GUIButton" style="width:50%;float:left">GUI</button>
             <button id="TerminalButton" style="width:50%;float:left">Terminal</button>
@@ -59,7 +59,7 @@
                     <option>RawData</option>
                     <option>CanMeasure</option>
                 </select>
-                <form id="SDO" onsubmit="FormularPBFunction(this)">
+                <form id="SDO" onsubmit="return FormularPBFunction(this)">
                     <p>nodeID</p><input name="nodeId" type="number" min="0" required />
                     <p>index</p><input name="index" type="number" min="0" required />
                     <p>subIndex</p><input name="subIndex" type="number" min="0" required>
@@ -77,14 +77,14 @@
                     <p>timestamp</p><input name="timestamp" type="number" min="0" />
                     <input type="submit" value="Submit">
                 </form>
-                <form id="PDO" onsubmit="FormularPBFunction(this)" hidden="hidden">
+                <form id="PDO" onsubmit="return FormularPBFunction(this)" hidden="hidden">
                     <p>nodeID</p><input name="nodeId" type="number" min="0" required />
                     <p>pdoNumber</p><input name="pdoNumber" type="number" min="0" required />
                     <p>data</p><input name="data" required />
                     <p>timestamp</p><input name="timestamp" type="number" min="0" required />
                     <input type="submit" value="Submit">
                 </form>
-                <form id="Event" onsubmit="FormularPBFunction(this)" hidden="hidden">
+                <form id="Event" onsubmit="return FormularPBFunction(this)" hidden="hidden">
                     <p>nodeID</p><input name="nodeId" type="number" min="0" required />
                     <p>data</p><input name="data" required />
                     <p>timestamp</p><input name="timestamp" type="number" min="0" required />
@@ -98,16 +98,16 @@
                     </select>
                     <input type="submit" value="Submit">
                 </form>
-                <form id="AddNote" hidden="hidden">
+                <form id="AddNote" onsubmit="return FormularPBFunction(this)" hidden="hidden">
                     <p>nodeID</p><input name="nodeId" type="number" min="0" required />
                     <p>deviceStatus</p><input name="deviceStatus" type="number" min="0" />
                     <input type="submit" value="Submit">
                 </form>
-                <form id="RemoveNode" hidden="hidden">
+                <form id="RemoveNode" onsubmit="return FormularPBFunction(this)" hidden="hidden">
                     <p>nodeID</p><input name="nodeId" type="number" min="0" required />
                     <input type="submit" value="Submit">
                 </form>
-                <form id="Command" hidden="hidden">
+                <form id="Command" onsubmit="return FormularPBFunction(this)" hidden="hidden">
                     <p>eventType</p>
                     <select name="eventType" required>
                         <option value="0">SHUTDOWN</option>
@@ -115,17 +115,17 @@
                     </select>
                     <input type="submit" value="Submit">
                 </form>
-                <form id="SYNC" hidden="hidden">
+                <form id="SYNC" onsubmit="return FormularPBFunction(this)" hidden="hidden">
                     <p>flags</p><input name="flags" type="number" min="0" required />
                     <input type="submit" value="Submit">
                 </form>
-                <form id="SdoProcess" hidden="hidden">
+                <form id="SdoProcess" onsubmit="return FormularPBFunction(this)" hidden="hidden">
                     <p>nodeID</p><input name="nodeId" type="number" min="0" required />
                     <p>index</p><input name="index" type="number" min="0" required />
                     <p>subIndex</p><input name="subIndex" type="number" min="0" required>
                     <p>value</p><input name="value" type="number" min="0" required>
                 </form>
-                <form id="Request" hidden="hidden">
+                <form id="Request" onsubmit="return FormularPBFunction(this)" hidden="hidden">
                     <p>requestType</p>
                     <select name="requestType" required>
                         <option value="0">Complete</option>
@@ -146,18 +146,18 @@
                     <p>canMeasureActive</p><input name="canMeasureActive" type="number" min="0" />
                     <input type="submit" value="Submit">
                 </form>
-                <form id="RequestProcess" hidden="hidden">
+                <form id="RequestProcess" onsubmit="return FormularPBFunction(this)" hidden="hidden">
                     <p>value</p><input name="value" type="number" min="0" required>
                     <input type="submit" value="Submit">
                 </form>
-                <form id="RawData" hidden="hidden">
+                <form id="RawData" onsubmit="return FormularPBFunction(this)" hidden="hidden">
                     <p>cobId</p><input name="cobId" type="number" min="0" required />
                     <p>data</p><input name="data" required />
                     <p>timeStamp</p><input name="timeStamp" type="number" min="0" required>
                     <p>direction</p><input name="direction" type="radio" required>
                     <input type="submit" value="Submit">
                 </form>
-                <form id="CanMeasure" hidden="hidden">
+                <form id="CanMeasure" onsubmit="return FormularPBFunction(this)" hidden="hidden">
                     <p>errorFlags</p><input name="errorFlags" type="number" min="0" required />
                     <p>canHRise</p><input name="canHRise" type="number" min="0" required />
                     <p>canHFall</p><input name="canHFall" type="number" min="0" required>

@@ -113,7 +113,7 @@ BLESendB.addEventListener('click', () => {
 // recive handler (Terminal)
 BLE.receive = function (data) {
 
-    
+
     if (document.getElementById('GUIContainer').hidden == false) {
         var x = 0;
         var MessageWrapper = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge.MessageWrapper");
@@ -161,48 +161,47 @@ BLE.receive = function (data) {
 /*END-----------------Bluetooth-------------------------------------------------------*/
 
 function FormularPBFunction(Formular) {
-debugger;
-    var PBTitle = '' + Formular.id;
-    var InnerMessage = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge." + PBTitle);
-    var n = 0;
-    var payload = [];
+    try {
+        var PBTitle = '' + Formular.id;
+        var InnerMessage = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge." + PBTitle);
+        var n = 0;
+        var payload = [];
 
-debugger;
 
-    for (n = 0; n < Formular.length; n++) {
-        if (Formular[n].value == null || Formular[n].value == "") {
-            // Do nothing
-        } else if (Formular[n].type == "number") {
-            payload[Formular[n].name] = Formular[n].valueAsNumber
-        } else if (Formular[n].type == "text") {
-            payload[Formular[n].name] = Formular[n].value;
-        } else if (Formular[n].type == "select-one") {
-            payload[Formular[n].name] = parseInt(Formular[n].value);
+        for (n = 0; n < Formular.length; n++) {
+            if (Formular[n].value == null || Formular[n].value == "") {
+                // Do nothing
+            } else if (Formular[n].type == "number") {
+                payload[Formular[n].name] = Formular[n].valueAsNumber
+            } else if (Formular[n].type == "text") {
+                payload[Formular[n].name] = Formular[n].value;
+            } else if (Formular[n].type == "select-one") {
+                payload[Formular[n].name] = parseInt(Formular[n].value);
+            }
         }
-    }
-debugger;
-    var errMsg = InnerMessage.verify(payload);
-    if (errMsg) {
+
+        var errMsg = InnerMessage.verify(payload);
+
+
+
+        var Outerpayload = [];
+        Outerpayload[PBTitle] = InnerMessage.create(payload);
+
+        var MessageWrapper = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge.MessageWrapper");
+        errMsg = MessageWrapper.verify(Outerpayload);
+
+
+        var omessage = MessageWrapper.create(Outerpayload);
+        var Er = MessageWrapper.verify(omessage);
+        var buffer = MessageWrapper.encode(omessage).finish();
+        //alert("buffer" + buffer);        
+        //debugger;
+        BLE.sendByte(buffer);
+    } catch (errMsg) {
+        //alert("ERROR/n" + errMsg);
         debugger;
-        throw Error(errMsg);
     }
-
-    var Outerpayload = [];
-    Outerpayload[PBTitle] = InnerMessage.create(payload);
-
-    var MessageWrapper = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge.MessageWrapper");
-    errMsg = MessageWrapper.verify(Outerpayload);
-    if (errMsg) {
-        alert("ERROR/n" + errMsg);
-        throw Error(errMsg);
-    }
-    var omessage = MessageWrapper.create(Outerpayload);
-    var buffer = MessageWrapper.encode(omessage).finish();
-    //alert("buffer" + buffer);
-    BLE.sendByte(buffer);
-
-
-
+    return false;
 }
 
 
