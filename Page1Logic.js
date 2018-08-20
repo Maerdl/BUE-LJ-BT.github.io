@@ -19,6 +19,8 @@ const BLENameLabel = document.getElementById('DevName');
 const BLETerminal = document.getElementById('Terminal');
 const PBMC = document.getElementById('PBList');
 
+
+
 const GuiButton = document.getElementById('GUIButton');
 const TermButton = document.getElementById('TerminalButton');
 let BLE = new BluetoothTerminal();
