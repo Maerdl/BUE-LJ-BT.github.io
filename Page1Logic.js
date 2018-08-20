@@ -117,8 +117,9 @@ BLE.receive = function (data) {
     if (document.getElementById('GUIContainer').hidden == false) {
         var x = 0;
         var MessageWrapper = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge.MessageWrapper");
+        var buffer = data.split(',');
         try {
-            var Outermessage = MessageWrapper.decode(unpack(data));
+            var Outermessage = MessageWrapper.decode(buffer);
         } catch{
             alert("Incoming message can't be decoded");
             throw Error("Incoming message can't be decoded");
@@ -196,14 +197,14 @@ function FormularPBFunction(Formular) {
         var buffer = MessageWrapper.encode(omessage).finish();
         //alert("buffer" + buffer);        
         //debugger;
-        BLE.sendByte(buffer);
+        BLE.send(buffer);
     } catch (errMsg) {
         //alert("ERROR/n" + errMsg);
         debugger;
     }
     return false;
 }
-
+/*
 function unpack(str) {
     var bytes = [];
     for (var i = 0; i < str.length; i++) {
@@ -217,9 +218,9 @@ function unpack(str) {
         var val1 = (char1 > 47 && char1 < 58) * (char1 - 48) + (char1 > 96 && char1 < 103) * (char1 - 87);
         var val2 = (char2 > 47 && char2 < 58) * (char2 - 48) + (char2 > 96 && char2 < 103) * (char2 - 87);
         bytes.push(val1 * 16 + val2);
-    }*/
+    }+/
     return bytes;
-}
+}*/
 
 // file wont be installd to homescreen but function does
 function GetProto() {
