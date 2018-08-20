@@ -10,7 +10,7 @@ class BluetoothTerminal {
    * @param {string} [sendSeparator='\n'] - Send separator
    */
   constructor(serviceUuid = 0xFFE0, characteristicUuid = 0xFFE1,
-              receiveSeparator = '\n', sendSeparator = '\n') {
+              receiveSeparator = '\n\r', sendSeparator = '\n\r') {
     // Used private variables.
     this._receiveBuffer = ''; // Buffer containing not separated data.
     this._maxCharacteristicValueLength = 20; // Max characteristic value length.

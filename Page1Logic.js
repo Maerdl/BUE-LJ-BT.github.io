@@ -208,9 +208,16 @@ function unpack(str) {
     var bytes = [];
     for (var i = 0; i < str.length; i++) {
         var char = str.charCodeAt(i);
-        bytes.push(char >>> 8);
+        //bytes.push(char >>> 8);
         bytes.push(char & 0xFF);
     }
+    /*for (var i = 0; i < str.length; i += 2) {
+        var char1 = str.charCodeAt(i);
+        var char2 = str.charCodeAt(i + 1);
+        var val1 = (char1 > 47 && char1 < 58) * (char1 - 48) + (char1 > 96 && char1 < 103) * (char1 - 87);
+        var val2 = (char2 > 47 && char2 < 58) * (char2 - 48) + (char2 > 96 && char2 < 103) * (char2 - 87);
+        bytes.push(val1 * 16 + val2);
+    }*/
     return bytes;
 }
 
