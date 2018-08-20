@@ -10,7 +10,7 @@ body {
 
 :root {
     --Main-Background-Color: white;
-    --Main-Text-Color: black;
+    --Main-Text-Color: white;
     --Buerkert-Blue: #7090b7;
     --Buerkert-Blue-light: #8db2e0;
     --Buerkert-Blue-dark: #516782;
@@ -35,7 +35,7 @@ body {
     .Header h1 {
         font-size: calc( 1vw + 35px );
         background-color: var(--Main-Background-Color);
-        color: var(--Main-Text-Color);
+        color: black;
         text-align: center;
     }
 /*END---------------HEADER-----------------*/
@@ -50,7 +50,7 @@ body {
     .NavMenu a {
         float: left;
         display: block;
-        color: white;
+        color: var(--Main-Text-Color);
         text-align: center;
         padding: 14px 16px;
         text-decoration: none;
@@ -74,7 +74,7 @@ body {
 .Main button {
     background-color: var(--Buerkert-Blue);
     border: none;
-    color: white;
+    color: var(--Main-Text-Color);
     height: calc( 1vw + 35px );
     font-size: calc(0.5vw + 17px);
     float: left;

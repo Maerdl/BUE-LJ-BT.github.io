@@ -65,15 +65,14 @@ BLEDisconnectB.addEventListener('click', () => {
 });
 
 GuiButton.addEventListener('click', () => {
-    document.getElementById('GUIContainer').hidden = true;
-    document.getElementById('TerminalContainer').hidden = false;
-});
-
-TermButton.addEventListener('click', () => {
     document.getElementById('GUIContainer').hidden = false;
     document.getElementById('TerminalContainer').hidden = true;
 });
 
+TermButton.addEventListener('click', () => {
+    document.getElementById('GUIContainer').hidden = true;
+    document.getElementById('TerminalContainer').hidden = false;
+});
 
 PBMC.addEventListener('change', () => {
     var i;
@@ -128,8 +127,6 @@ BLESendB.addEventListener('click', () => {
 
 // recive handler (Terminal)
 BLE.receive = function (data) {
-
-
     if (document.getElementById('GUIContainer').hidden == false) {
         var x = 0;
         var MessageWrapper = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge.MessageWrapper");
@@ -144,16 +141,14 @@ BLE.receive = function (data) {
         for (x = 0; x < GUICont.childElementCount; x++) {
             if (GUICont.children[x].nodeName == "FORM") {
                 if (Outermessage[GUICont.children[x].id]) {
-                    debugger;
                     var Innermessage = Outermessage[GUICont.children[x].id];
-                    var text = "";
+                    var text = "" + Innermessage.name + "\n\n";
 
                     for (var key in Innermessage) {
-                        debugger;
                         if (key != "constructor" && key != "toJSON" && key != "$type") text = text + key + " : " + Innermessage[key] + " ;\n";
                     }
 
-                    alert("Decoded protobuf: \n\n" + text);
+                    alert("Decoded protobuf: \n" + text);
                     break;
                 }
             }
@@ -184,7 +179,6 @@ function FormularPBFunction(Formular) {
         var n = 0;
         var payload = [];
 
-
         for (n = 0; n < Formular.length; n++) {
             if (Formular[n].value == null || Formular[n].value == "") {
                 // Do nothing
@@ -194,19 +188,18 @@ function FormularPBFunction(Formular) {
                 payload[Formular[n].name] = Formular[n].value;
             } else if (Formular[n].type == "select-one") {
                 payload[Formular[n].name] = parseInt(Formular[n].value);
+            } else if (Formular[n].type == "radio") {
+                
             }
         }
 
         var errMsg = InnerMessage.verify(payload);
-
-
 
         var Outerpayload = [];
         Outerpayload[PBTitle] = InnerMessage.create(payload);
 
         var MessageWrapper = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge.MessageWrapper");
         errMsg = MessageWrapper.verify(Outerpayload);
-
 
         var omessage = MessageWrapper.create(Outerpayload);
         var Er = MessageWrapper.verify(omessage);
