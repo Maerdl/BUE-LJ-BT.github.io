@@ -18,6 +18,9 @@ const BLESendB = document.getElementById('SendButton');
 const BLENameLabel = document.getElementById('DevName');
 const BLETerminal = document.getElementById('Terminal');
 const PBMC = document.getElementById('PBList');
+
+const GuiButton = document.getElementById('GUIButton');
+const TermButton = document.getElementById('TerminalButton');
 let BLE = new BluetoothTerminal();
 
 // Scroll the Terminal down
@@ -58,6 +61,17 @@ BLEDisconnectB.addEventListener('click', () => {
     logToTerminal('Manual disconnect from : ' + BLENameLabel.innerHTML, 'info');
     BLENameLabel.innerHTML = '';
 });
+
+GuiButton.addEventListener('click', () => {
+    document.getElementById('GUIContainer').hidden = true;
+    document.getElementById('TerminalContainer').hidden = false;
+});
+
+TermButton.addEventListener('click', () => {
+    document.getElementById('GUIContainer').hidden = false;
+    document.getElementById('TerminalContainer').hidden = true;
+});
+
 
 PBMC.addEventListener('change', () => {
     var i;
