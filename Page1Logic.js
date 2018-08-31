@@ -1,4 +1,5 @@
 ﻿/*BEGIN---------------add to homescreen-------------------------------------------------*/
+const A2HButton = document.getElementById('Add_to_Homescreen_Button');
 // Register the service worker if possible.
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('A2H_ServiceWorker.js').then(function (reg) {
@@ -7,6 +8,20 @@ if ('serviceWorker' in navigator) {
         console.warn('Error whilst registering A2H service worker', err);
     });
 }
+
+A2HButton.addEventListener('click', (e) => {
+    A2HButton.hidden = true;
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice
+        .then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the A2HS prompt');
+            } else {
+                console.log('User dismissed the A2HS prompt');
+            }
+            deferredPrompt = null;
+        });
+});
 /*END-----------------add to homescreen-------------------------------------------------*/
 
 /*BEGIN-----------------bluetooth-------------------------------------------------------*/
@@ -188,8 +203,9 @@ function FormularPBFunction(Formular) {
                 payload[Formular[n].name] = Formular[n].value;
             } else if (Formular[n].type == "select-one") {
                 payload[Formular[n].name] = parseInt(Formular[n].value);
-            } else if (Formular[n].type == "radio") {
-                
+            } else if (Formular[n].type == "checkbox") {
+                if (Formular[n].value == 'on') payload[Formular[n].name] = true;
+                else payload[Formular[n].name] = false;
             }
         }
 
@@ -213,6 +229,7 @@ function FormularPBFunction(Formular) {
     }
     return false;
 }
+
 /*
 function unpack(str) {
     var bytes = [];

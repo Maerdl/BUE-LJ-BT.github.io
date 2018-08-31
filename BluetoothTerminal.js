@@ -159,7 +159,7 @@ class BluetoothTerminal {
 
     // Write first chunk to the characteristic immediately.
     let promise = this._writeToCharacteristic(this._characteristic, chunks[0]);
-
+    
     // Iterate over chunks if there are more than one of it.
     for (let i = 1; i < chunks.length; i++) {
       // Chain new promise.
