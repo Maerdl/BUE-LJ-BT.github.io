@@ -1,5 +1,5 @@
 ﻿/*BEGIN---------------add to homescreen-------------------------------------------------*/
-const A2HButton = document.getElementById('Add_to_Homescreen_Button');
+//const A2HButton = document.getElementById('Add_to_Homescreen_Button');
 // Register the service worker if possible.
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('A2H_ServiceWorker.js').then(function (reg) {
