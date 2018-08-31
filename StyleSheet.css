@@ -45,10 +45,11 @@ body {
     }
 
     .Header > h1 {
-        font-size: calc( 1vw + 35px );
+        font-size: calc( 1vw + 33px );
         background-color: var(--Main-Background-Color);
-        color: black;
-        text-align: center;
+        color: var(--Buerkert-Blue);
+        text-align: left;
+        margin-top: 13px;
     }
 /*END---------------HEADER-----------------*/
 
