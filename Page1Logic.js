@@ -1,27 +1,12 @@
 ﻿/*BEGIN---------------add to homescreen-------------------------------------------------*/
-//const A2HButton = document.getElementById('Add_to_Homescreen_Button');
 // Register the service worker if possible.
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('A2H_ServiceWorker.js').then(function (reg) {
-        console.log('Successfully registered A2H service worker', reg);
+    navigator.serviceWorker.register('A2HS_ServiceWorker.js').then(function (reg) {
+        console.log('Successfully registered A2HS service worker', reg);
     }).catch(function (err) {
-        console.warn('Error whilst registering A2H service worker', err);
+        console.warn('Error whilst registering A2HS service worker', err);
     });
 }
-/*
-A2HButton.addEventListener('click', (e) => {
-    A2HButton.hidden = true;
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice
-        .then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-                console.log('User accepted the A2HS prompt');
-            } else {
-                console.log('User dismissed the A2HS prompt');
-            }
-            deferredPrompt = null;
-        });
-});*/
 /*END-----------------add to homescreen-------------------------------------------------*/
 
 /*BEGIN-----------------bluetooth-------------------------------------------------------*/
