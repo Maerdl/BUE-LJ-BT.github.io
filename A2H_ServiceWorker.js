@@ -31,7 +31,7 @@ self.addEventListener('fetch', function (e) {
 });
 
 
-let deferredPrompt;
+/*let deferredPrompt;
 //const A2HButton = document.getElementById('Add_to_Homescreen_Button');
 self.addEventListener('beforinstallprompt', e => {
     e.preventDefault();
@@ -48,4 +48,4 @@ self.addEventListener('beforinstallprompt', e => {
             }
             deferredPrompt = null;
         });
-});
+});*/
