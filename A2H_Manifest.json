@@ -1,7 +1,7 @@
 ﻿{
   "short_name": "Connector",
   "name": "Bürkert Connector",
-  "description": "Testanwendung für App to Homescreen und BluetoothWeb",
+  "description": "Connector zu Bürkert Serviceadapter",
   "icons": [
     {
       "src": "icon/buerkert_logo_icon_48x48.png",
@@ -35,7 +35,6 @@
     }
   ],
   "start_url": "index.html",
-
   "display": "standalone",
   "background_color": "#7090b7",
   "theme-color": "#7090b7"
