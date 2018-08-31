@@ -1,6 +1,6 @@
 ﻿{
-  "short_name": "LJ_Bue",
-  "name": "LJ_Buerkert_Test",
+  "short_name": "Connector",
+  "name": "Bürkert Connector",
   "description": "Testanwendung für App to Homescreen und BluetoothWeb",
   "icons": [
     {
