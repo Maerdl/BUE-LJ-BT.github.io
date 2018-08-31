@@ -8,7 +8,7 @@ if ('serviceWorker' in navigator) {
         console.warn('Error whilst registering A2H service worker', err);
     });
 }
-
+/*
 A2HButton.addEventListener('click', (e) => {
     A2HButton.hidden = true;
     deferredPrompt.prompt();
@@ -21,7 +21,7 @@ A2HButton.addEventListener('click', (e) => {
             }
             deferredPrompt = null;
         });
-});
+});*/
 /*END-----------------add to homescreen-------------------------------------------------*/
 
 /*BEGIN-----------------bluetooth-------------------------------------------------------*/
