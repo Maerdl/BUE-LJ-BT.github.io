@@ -21,11 +21,11 @@ self.addEventListener('install', function (e) {
 self.addEventListener('fetch', function (e) {
     console.log(e.request.url);
     e.respondWith(
-        caches.match(e.request).then(function (response) {
+        caches.match(e.request).then(function (response) {      // Versucht Antwort vom cache zu erhalten
             if (response) {
-                return response;
+                return response;                                // Gibt Antwort zurück
             }
-            return fetch(e.request);
+            return fetch(e.request);                            // Gibt die Anfrage zurück
         })
     );
 });

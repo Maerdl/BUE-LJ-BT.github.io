@@ -20,10 +20,13 @@ const BLETerminal = document.getElementById('Terminal');
 const PBMC = document.getElementById('PBList');
 
 
-
-const GuiButton = document.getElementById('GUIButton');
+const GuiBSimple = document.getElementById('GUIButtonSimpleAccess');
+const GuiButton = document.getElementById('GUIButtonFullAccess');
 const TermButton = document.getElementById('TerminalButton');
-let BLE = new BluetoothTerminal();
+const GUIContFA = document.getElementById('GUIContainerFullAccess');
+const GUIContSA = document.getElementById('GUIContainerSimpleAccess');
+const TermCont = document.getElementById('TerminalContainer');
+let BLE = new Bluetooth_Send_Protobuf();
 
 // Scroll the Terminal down
 const scrollElement = (element) => {
@@ -65,13 +68,21 @@ BLEDisconnectB.addEventListener('click', () => {
 });
 
 GuiButton.addEventListener('click', () => {
-    document.getElementById('GUIContainer').hidden = false;
-    document.getElementById('TerminalContainer').hidden = true;
+    GUIContFA.hidden = false;
+    TermCont.hidden = true;
+    GUIContSA.hidden = true;
+});
+
+GuiBSimple.addEventListener('click', () => {
+    GUIContFA.hidden = true;
+    TermCont.hidden = true;
+    GUIContSA.hidden = false;
 });
 
 TermButton.addEventListener('click', () => {
-    document.getElementById('GUIContainer').hidden = true;
-    document.getElementById('TerminalContainer').hidden = false;
+    GUIContFA.hidden = true;
+    TermCont.hidden = false;
+    GUIContSA.hidden = true;
 });
 
 PBMC.addEventListener('change', () => {
@@ -127,7 +138,7 @@ BLESendB.addEventListener('click', () => {
 
 // recive handler (Terminal)
 BLE.receive = function (data) {
-    if (document.getElementById('GUIContainer').hidden == false) {
+    if (GUIContFA.hidden == false || GUIContSA.hidden == false) {
         var x = 0;
         var MessageWrapper = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge.MessageWrapper");
         var buffer = data.split(',');
@@ -137,7 +148,7 @@ BLE.receive = function (data) {
             alert("Incoming message can't be decoded");
             throw Error("Incoming message can't be decoded");
         }
-        var GUICont = document.getElementById('GUIContainer');
+        var GUICont = GUIContFA;
         for (x = 0; x < GUICont.childElementCount; x++) {
             if (GUICont.children[x].nodeName == "FORM") {
                 if (Outermessage[GUICont.children[x].id]) {
@@ -183,7 +194,7 @@ function FormularPBFunction(Formular) {
             if (Formular[n].value == null || Formular[n].value == "") {
                 // Do nothing
             } else if (Formular[n].type == "number") {
-                payload[Formular[n].name] = Formular[n].valueAsNumber
+                payload[Formular[n].name] = Formular[n].valueAsNumber;
             } else if (Formular[n].type == "text") {
                 payload[Formular[n].name] = Formular[n].value;
             } else if (Formular[n].type == "select-one") {
@@ -203,16 +214,42 @@ function FormularPBFunction(Formular) {
         errMsg = MessageWrapper.verify(Outerpayload);
 
         var omessage = MessageWrapper.create(Outerpayload);
-        var Er = MessageWrapper.verify(omessage);
+        //errMsg = MessageWrapper.verify(omessage);
         var buffer = MessageWrapper.encode(omessage).finish();
         //alert("buffer" + buffer);        
         //debugger;
         BLE.send(buffer);
     } catch (errMsg) {
         //alert("ERROR/n" + errMsg);
-        debugger;
+        logToTerminal("ERROR in FormularPBFunction : " + errMsg);
+        //debugger;
     }
     return false;
+}
+
+function FormularSimpleRead(Formular) {
+    try {
+        var InnerMessage = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge.SDO");
+        var payload = new Array();
+        for (var n = 0; n < 3; n++) {
+            payload[Formular[n].name] = Formular[n].valueAsNumber;
+        }
+        var errMsg = InnerMessage.verify(payload);
+
+        var Outerpayload = [];
+        Outerpayload["SDO"] = InnerMessage.create(payload);
+        var MessageWrapper = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge.MessageWrapper");
+        errMsg = MessageWrapper.verify(Outerpayload);
+
+        var omessage = MessageWrapper.create(Outerpayload);
+        errMsg = MessageWrapper.verify(omessage);
+        var buffer = MessageWrapper.encode(omessage).finish();
+
+        BLE.send(buffer);
+    } catch (errMsg) {
+        logToTerminal("ERROR in FormularSimpleRead : " + errMsg);
+    }
+
 }
 
 /*
