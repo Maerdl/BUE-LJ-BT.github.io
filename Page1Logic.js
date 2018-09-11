@@ -26,8 +26,8 @@ const TermButton = document.getElementById('TerminalButton');
 const GUIContFA = document.getElementById('GUIContainerFullAccess');
 const GUIContSA = document.getElementById('GUIContainerSimpleAccess');
 const TermCont = document.getElementById('TerminalContainer');
-//let BLE = new Bluetooth_Send_Protobuf();
-let BLE = new BluetoothTerminal();
+let BLE = new Bluetooth_Send_Protobuf();
+//let BLE = new BluetoothTerminal();
 
 // Scroll the Terminal down
 const scrollElement = (element) => {
@@ -232,6 +232,7 @@ function FormularSimpleRead(Formular) {
     try {
         var InnerMessage = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge.SDO");
         var payload = new Array();
+        payload['control'] = 0; 
         for (var n = 0; n < 3; n++) {
             payload[Formular[n].name] = Formular[n].valueAsNumber;
         }

@@ -32,9 +32,9 @@
         <button type="button" id="Connect" style="width:100%">Connect</button>
         <div id="IfConnected">
             <button id="Disconnect" style="width:100%">Disconnect</button>
-            <button id="GUIButtonSimpleAccess" style="width:33%;float:left">Read</button>
-            <button id="GUIButtonFullAccess" style="width:33%;float:left">All messages </button>
-            <button id="TerminalButton" style="width:33%;float:left">Terminal</button>
+            <button id="GUIButtonSimpleAccess" style="width:33.33%;float:left">Read</button>
+            <button id="GUIButtonFullAccess" style="width:33.33%;float:left">All messages </button>
+            <button id="TerminalButton" style="width:33.33%;float:left">Terminal</button>
 
             <div id="GUIContainerSimpleAccess" class="GUIContainer">
                 <form onsubmit="return (FormularSimpleRead(this) && false)">
@@ -61,7 +61,7 @@
                     <option>RawData</option>
                     <option>CanMeasure</option>
                 </select>
-                <form id="SDO" onsubmit="return FormularPBFunction(this)">
+                <form id="SDO" onsubmit="return (FormularPBFunction(this) && false)">
                     <p>nodeID</p><input name="nodeId" type="number" min="0" required />
                     <p>index</p><input name="index" type="number" min="0" required />
                     <p>subIndex</p><input name="subIndex" type="number" min="0" required />
@@ -79,14 +79,14 @@
                     <p>timestamp</p><input name="timestamp" type="number" min="0" />
                     <input type="submit" value="Submit">
                 </form>
-                <form id="PDO" onsubmit="return FormularPBFunction(this)" hidden="hidden">
+                <form id="PDO" onsubmit="return (FormularPBFunction(this) && false)" hidden="hidden">
                     <p>nodeID</p><input name="nodeId" type="number" min="0" required />
                     <p>pdoNumber</p><input name="pdoNumber" type="number" min="0" required />
                     <p>data</p><input name="data" required />
                     <p>timestamp</p><input name="timestamp" type="number" min="0" required />
                     <input type="submit" value="Submit">
                 </form>
-                <form id="Event" onsubmit="return FormularPBFunction(this)" hidden="hidden">
+                <form id="Event" onsubmit="return (FormularPBFunction(this) && false)" hidden="hidden">
                     <p>nodeID</p><input name="nodeId" type="number" min="0" required />
                     <p>data</p><input name="data" required />
                     <p>timestamp</p><input name="timestamp" type="number" min="0" required />
@@ -100,16 +100,16 @@
                     </select>
                     <input type="submit" value="Submit">
                 </form>
-                <form id="AddNote" onsubmit="return FormularPBFunction(this)" hidden="hidden">
+                <form id="AddNote" onsubmit="return (FormularPBFunction(this) && false)" hidden="hidden">
                     <p>nodeID</p><input name="nodeId" type="number" min="0" required />
                     <p>deviceStatus</p><input name="deviceStatus" type="number" min="0" />
                     <input type="submit" value="Submit">
                 </form>
-                <form id="RemoveNode" onsubmit="return FormularPBFunction(this)" hidden="hidden">
+                <form id="RemoveNode" onsubmit="return (FormularPBFunction(this) && false)" hidden="hidden">
                     <p>nodeID</p><input name="nodeId" type="number" min="0" required />
                     <input type="submit" value="Submit">
                 </form>
-                <form id="Command" onsubmit="return FormularPBFunction(this)" hidden="hidden">
+                <form id="Command" onsubmit="return (FormularPBFunction(this) && false)" hidden="hidden">
                     <p>eventType</p>
                     <select name="eventType" required>
                         <option value="0">SHUTDOWN</option>
@@ -117,17 +117,17 @@
                     </select>
                     <input type="submit" value="Submit">
                 </form>
-                <form id="SYNC" onsubmit="return FormularPBFunction(this)" hidden="hidden">
+                <form id="SYNC" onsubmit="return (FormularPBFunction(this) && false)" hidden="hidden">
                     <p>flags</p><input name="flags" type="number" min="0" required />
                     <input type="submit" value="Submit">
                 </form>
-                <form id="SdoProcess" onsubmit="return FormularPBFunction(this)" hidden="hidden">
+                <form id="SdoProcess" onsubmit="return (FormularPBFunction(this) && false)" hidden="hidden">
                     <p>nodeID</p><input name="nodeId" type="number" min="0" required />
                     <p>index</p><input name="index" type="number" min="0" required />
                     <p>subIndex</p><input name="subIndex" type="number" min="0" required>
                     <p>value</p><input name="value" type="number" min="0" required>
                 </form>
-                <form id="Request" onsubmit="return FormularPBFunction(this)" hidden="hidden">
+                <form id="Request" onsubmit="return (FormularPBFunction(this) && false)" hidden="hidden">
                     <p>requestType</p>
                     <select name="requestType" required>
                         <option value="0">Complete</option>
@@ -148,18 +148,18 @@
                     <p>canMeasureActive</p><input name="canMeasureActive" type="number" min="0" />
                     <input type="submit" value="Submit">
                 </form>
-                <form id="RequestProcess" onsubmit="return FormularPBFunction(this)" hidden="hidden">
+                <form id="RequestProcess" onsubmit="return (FormularPBFunction(this) && false)" hidden="hidden">
                     <p>value</p><input name="value" type="number" min="0" required>
                     <input type="submit" value="Submit">
                 </form>
-                <form id="RawData" onsubmit="return FormularPBFunction(this)" hidden="hidden">
+                <form id="RawData" onsubmit="return (FormularPBFunction(this) && false)" hidden="hidden">
                     <p>cobId</p><input name="cobId" type="number" min="0" required />
                     <p>data</p><input name="data" required />
                     <p>timeStamp</p><input name="timeStamp" type="number" min="0" required>
                     <p>direction</p><input name="direction" type="checkbox">
                     <input type="submit" value="Submit">
                 </form>
-                <form id="CanMeasure" onsubmit="return FormularPBFunction(this)" hidden="hidden">
+                <form id="CanMeasure" onsubmit="return (FormularPBFunction(this) && false)" hidden="hidden">
                     <p>errorFlags</p><input name="errorFlags" type="number" min="0" required>
                     <p>canHRise</p><input name="canHRise" type="number" min="0" required>
                     <p>canHFall</p><input name="canHFall" type="number" min="0" required>
@@ -191,8 +191,8 @@
     </div>
 
     <script src="protobuf/protobuf.js" type="text/javascript"></script>
-    <script src="BluetoothTerminal.js" type="text/javascript"></script>
-    <!--<script src="Bluetooth_Transfer_Protobuf.js" type="text/javascript"></script>-->
+    <!--<script src="BluetoothTerminal.js" type="text/javascript"></script>-->
+    <script src="Bluetooth_Transfer_Protobuf.js" type="text/javascript"></script>
     <script src="Page1Logic.js" type="text/javascript"></script>
 </body>
     </html>
