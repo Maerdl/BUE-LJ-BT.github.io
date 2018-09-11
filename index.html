@@ -37,7 +37,7 @@
             <button id="TerminalButton" style="width:33%;float:left">Terminal</button>
 
             <div id="GUIContainerSimpleAccess" class="GUIContainer">
-                <form onsubmit="return FormularSimpleRead(this)">
+                <form onsubmit="return (FormularSimpleRead(this) && false)">
                     <p>nodeID</p><input name="nodeId" type="number" min="0" required />
                     <p>index</p><input name="index" type="number" min="0" required />
                     <p>subIndex</p><input name="subIndex" type="number" min="0" required>
