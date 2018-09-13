@@ -88,7 +88,7 @@ class Bluetooth_Send_Protobuf {
    * Data receiving handler which called whenever the new data comes from
    * the connected device, override it to handle incoming data.
    * @param {string} data - Data
-   * @param {bool} true => Data complete reset buffer
+   * @return {bool} true => Data complete reset buffer
    */
   receive(data) {
     // Handle incoming data.
@@ -100,9 +100,9 @@ class Bluetooth_Send_Protobuf {
    * @return {Promise} Promise which will be fulfilled when data will be sent or
    *                   rejected if something went wrong
   */
-  send(data) {
-    // Return rejected promise immediately if data is empty.
-    if (!data) {
+  send(Data) {
+    // Return rejected promise immediately if Data is empty.
+    if (!Data) {
       return Promise.reject('Data must be not empty');
     }
 
@@ -111,7 +111,6 @@ class Bluetooth_Send_Protobuf {
       return Promise.reject('There is no connected device');
     }
    
-    var Data = data;//new Blob([data]);
     
     let chunk = Data.slice(0, this._maxCharacteristicValueLength);
     let promise = this._writeToCharacteristic(this._characteristic,  chunk);
@@ -306,7 +305,7 @@ class Bluetooth_Send_Protobuf {
 
 
         this._receiveBuffer += event.target.value;
-        if (this.receive(this._receiveBuffer)) {
+        if (this.receive(this._receiveBuffer) === true) {
             this._receiveBuffer = null;
         } else {
 

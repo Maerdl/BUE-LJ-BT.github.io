@@ -26,8 +26,8 @@ const TermButton = document.getElementById('TerminalButton');
 const GUIContFA = document.getElementById('GUIContainerFullAccess');
 const GUIContSA = document.getElementById('GUIContainerSimpleAccess');
 const TermCont = document.getElementById('TerminalContainer');
-let BLE = new Bluetooth_Send_Protobuf();
-//let BLE = new BluetoothTerminal();
+//let BLE = new Bluetooth_Send_Protobuf();
+let BLE = new BluetoothTerminal();
 
 // Scroll the Terminal down
 const scrollElement = (element) => {
@@ -251,7 +251,7 @@ function FormularSimpleRead(Formular) {
     } catch (errMsg) {
         logToTerminal("ERROR in FormularSimpleRead : " + errMsg);
     }
-
+    return false;
 }
 
 /*
