@@ -111,7 +111,7 @@ class Bluetooth_Send_Protobuf {
       return Promise.reject('There is no connected device');
     }
    
-    var Data = new Blob([data]);
+    var Data = data;//new Blob([data]);
     
     let chunk = Data.slice(0, this._maxCharacteristicValueLength);
     let promise = this._writeToCharacteristic(this._characteristic,  chunk);
