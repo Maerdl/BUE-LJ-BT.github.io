@@ -88,17 +88,18 @@ class Bluetooth_Send_Protobuf {
    * Data receiving handler which called whenever the new data comes from
    * the connected device, override it to handle incoming data.
    * @param {string} data - Data
+   * @param {bool} true => Data complete reset buffer
    */
   receive(data) {
     // Handle incoming data.
   }
-
+ 
   /**
    * Send data to the connected device.
-   * @param {string} data - Data
+   * @param {} data - Data
    * @return {Promise} Promise which will be fulfilled when data will be sent or
    *                   rejected if something went wrong
-   */
+  */
   send(data) {
     // Return rejected promise immediately if data is empty.
     if (!data) {
@@ -111,13 +112,11 @@ class Bluetooth_Send_Protobuf {
     }
    
     var Data = new Blob([data]);
-
-    // Split data to chunks by max characteristic value length.
     
-    let x = 0;
-    let chunk = Data.slice(x, (x + this._maxCharacteristicValueLength));
+    let chunk = Data.slice(0, this._maxCharacteristicValueLength);
     let promise = this._writeToCharacteristic(this._characteristic,  chunk);
-    for (x = 0 ; x < Data.size; x += this._maxCharacteristicValueLength) {
+
+    for (let x = this._maxCharacteristicValueLength ; x < Data.size; x += this._maxCharacteristicValueLength) {
         chunk = Data.slice(x, (x + this._maxCharacteristicValueLength));
 
         promise = promise.then(() => new Promise((resolve, reject) => {
@@ -303,15 +302,41 @@ class Bluetooth_Send_Protobuf {
    * @param {Object} event
    * @private
    */
-  _handleCharacteristicValueChanged(event) {
-      this._receiveBuffer += event.target.value;
-      try {
-          var MessageWrapper = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge.MessageWrapper");
-          errMsg = MessageWrapper.verify(this._receiveBuffer);
-      }
-      catch{
-          if (this._receiveBuffer.length > 1000) _log("recive Buffer > 1000")
-      }
+    _handleCharacteristicValueChanged(event) {
+
+
+        this._receiveBuffer += event.target.value;
+        if (this.receive(this._receiveBuffer)) {
+            this._receiveBuffer = null;
+        } else {
+
+        }
+
+
+
+
+        /*this._receiveBuffer += event.target.value;
+        if ((new Date() - this._timestamp) < 1000) {
+            try {
+                //var MessageWrapper = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge.MessageWrapper");
+                var decodedMsg = protobuf.parse(GetProto())
+                                    .root.lookupType("CanOpenBridge.MessageWrapper")
+                                    .decode(this._receiveBuffer);
+
+
+
+                //MessageWrapper.verify(this._receiveBuffer);
+                //this.receive_PB(this._receiveBuffer);
+            }
+            catch (err) {
+                
+            }
+        } else {
+            this.receive(this._receiveBuffer);
+        }
+        this._timestamp = new Date();*/
+
+      
       /*
     for (let c of value) {
       if (c === this._receiveSeparator) {

@@ -26,8 +26,8 @@ const TermButton = document.getElementById('TerminalButton');
 const GUIContFA = document.getElementById('GUIContainerFullAccess');
 const GUIContSA = document.getElementById('GUIContainerSimpleAccess');
 const TermCont = document.getElementById('TerminalContainer');
-let BLE = new Bluetooth_Send_Protobuf();
-//let BLE = new BluetoothTerminal();
+//let BLE = new Bluetooth_Send_Protobuf();
+let BLE = new BluetoothTerminal();
 
 // Scroll the Terminal down
 const scrollElement = (element) => {
@@ -138,7 +138,7 @@ BLESendB.addEventListener('click', () => {
 });
 
 // recive handler (Terminal)
-BLE.receive = function (data) {
+BLE.receive = function (buffer) {
     if (GUIContFA.hidden == false || GUIContSA.hidden == false) {
         var x = 0;
         var MessageWrapper = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge.MessageWrapper");
