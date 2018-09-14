@@ -303,9 +303,13 @@ class Bluetooth_Send_Protobuf {
    */
     _handleCharacteristicValueChanged(event) {
 
-        var x = event.target.value.getInt8(0);
         debugger;
-        this._receiveBuffer += event.target.value;
+
+        for (var x = 0; x < event.target.value.byteLength; x++) {
+            this._receiveBuffer.push(event.target.value.getInt8(x));
+        }
+
+        debugger;
         if (this.receive(this._receiveBuffer) === true) {
             this._receiveBuffer = null;
         } else {
