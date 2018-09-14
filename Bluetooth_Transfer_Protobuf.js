@@ -11,7 +11,7 @@ class Bluetooth_Send_Protobuf {
    */
   constructor(serviceUuid = 0xFFE0, characteristicUuid = 0xFFE1) {
     // Used private variables.
-    this._receiveBuffer = ''; // Buffer containing not separated data.
+    this._receiveBuffer = null; // Buffer containing not separated data.
     this._maxCharacteristicValueLength = 20; // Max characteristic value length.
     this._device = null; // Device object cache.
     this._characteristic = null; // Characteristic object cache.
