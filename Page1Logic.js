@@ -153,32 +153,34 @@ BLESendB.addEventListener('click', () => {
 
 // recive handler
 BLE.receive = function (buffer) {
-    if (GUIContFA.hidden == false || GUIContSA.hidden == false) { // If PB-Com is on 
-        var MessageWrapper = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge.MessageWrapper");
-        try {
+    try {
+        if (GUIContFA.hidden == false || GUIContSA.hidden == false) { // If PB-Com is on 
+            var MessageWrapper = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge.MessageWrapper");
             var Outermessage = MessageWrapper.decode(buffer);
-        } catch{
-            return false;
-        }
-        for (x = 0; x < GUIContFA.childElementCount; x++) {
-            if (GUIContFA.children[x].nodeName == "FORM") {
-                if (Outermessage[GUIContFA.children[x].id]) {
-                    var Innermessage = Outermessage[GUIContFA.children[x].id];
-                    var text = "" + GUIContFA.children[x].id + "\n\n";
+            
+            for (x = 0; x < GUIContFA.childElementCount; x++) {
+                if (GUIContFA.children[x].nodeName == "FORM") {
+                    if (Outermessage[GUIContFA.children[x].id]) {
+                        var Innermessage = Outermessage[GUIContFA.children[x].id];
+                        var text = "" + GUIContFA.children[x].id + "\n\n";
 
-                    for (var key in Innermessage) {
-                        if (key != "constructor" && key != "toJSON" && key != "$type") text = text + key + " : " + Innermessage[key] + " ;\n";
+                        for (var key in Innermessage) {
+                            if (key != "constructor" && key != "toJSON" && key != "$type") text = text + key + " : " + Innermessage[key] + " ;\n";
+                        }
+
+                        alert("Decoded protobuf: \n" + text);
+                        break;
                     }
-
-                    alert("Decoded protobuf: \n" + text);
-                    break;
                 }
             }
+        } else if (document.getElementById('TerminalContainer').hidden == false) { // If Term is on
+            var a = new TextDecoder("utf-8");
+            var buf = new Uint8Array(buffer).buffer;
+            var b = a.decode(buf);
+            logToTerminal(BLENameLabel.innerHTML + " : " + b);
         }
-    } else if (document.getElementById('TerminalContainer').hidden == false) { // If Term is on
-        var a = new TextDecoder("utf-8");
-        var b = a.encoding(buffer);
-        logToTerminal(BLENameLabel.innerHTML + b);
+    } catch{
+        return false;
     }
     return true;
     /*
