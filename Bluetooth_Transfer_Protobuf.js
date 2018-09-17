@@ -11,7 +11,7 @@ class Bluetooth_Send_Protobuf {
    */
   constructor(serviceUuid = 0xFFE0, characteristicUuid = 0xFFE1) {
     // Used private variables.
-    this._receiveBuffer = null; // Buffer containing not separated data.
+    this._receiveBuffer = []; // Buffer containing not separated data.
     this._maxCharacteristicValueLength = 20; // Max characteristic value length.
     this._device = null; // Device object cache.
     this._characteristic = null; // Characteristic object cache.
@@ -311,18 +311,18 @@ class Bluetooth_Send_Protobuf {
         var z2 = y.getInt8(2);
         debugger;
 
-        var x = 0;
+       /* var x = 0;
         if (this._receiveBuffer === null) {
             this._receiveBuffer[0] = event.target.value.getInt8(x);
             x++;
-        }
-        for ( ; x < event.target.value.byteLength; x++) {
+        }*/
+        for (var x = 0 ; x < event.target.value.byteLength; x++) {
             this._receiveBuffer.push(event.target.value.getInt8(x));
         }
 
         debugger;
         if (this.receive(this._receiveBuffer) === true) {
-            this._receiveBuffer = null;
+            this._receiveBuffer = [];
         }
 
 
