@@ -304,14 +304,19 @@ class Bluetooth_Send_Protobuf {
     _handleCharacteristicValueChanged(event) {
 
         debugger;
-        var x = event.target;
-        var y = x.value;
+        var x1 = event.target;
+        var y = x1.value;
         var z0 = y.getInt8(0);
         var z1 = y.getInt8(1);
         var z2 = y.getInt8(2);
         debugger;
 
-        for (var x = 0; x < event.target.value.byteLength; x++) {
+        var x = 0;
+        if (this._receiveBuffer === null) {
+            this._receiveBuffer = event.target.value.getInt8(x);
+            x++;
+        }
+        for ( ; x < event.target.value.byteLength; x++) {
             this._receiveBuffer.push(event.target.value.getInt8(x));
         }
 
