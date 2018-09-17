@@ -12,7 +12,7 @@ self.addEventListener('install', function (e) {
                 'BluetoothTerminal.js',
                 'Bluetooth_Transfer_Protobuf.js',
                 'protobuf/protobuf.js',
-                'libraries/qr-scanner/qr-scanner-worker.min.js',
+                'libaries/qr-scanner/qr-scanner-worker.min.js',
                 'Qr-Scanner/Page1_QRScanner.js',
                 'Qr-Scanner/qr-scanner.min.js'
             ]).then(function (cache) {
