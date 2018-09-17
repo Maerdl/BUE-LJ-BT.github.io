@@ -13,7 +13,7 @@ function setResult(label, result) {
 }
 
 // ####### Web Cam Scanning #######
-const scanner = new QrScanner(video, result => setResult(camQrResult, result));
+const scanner = new QrScanner(video, result => setResult(camQrResult, result),300);
 
 
 QREnableButton.addEventListener('click', () => {
