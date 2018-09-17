@@ -29,6 +29,7 @@ const TermCont = document.getElementById('TerminalContainer');
 let BLE = new Bluetooth_Send_Protobuf();
 //let BLE = new BluetoothTerminal();
 
+
 // Scroll the Terminal down
 const scrollElement = (element) => {
     const scrollTop = element.scrollHeight - element.offsetHeight;
@@ -43,6 +44,16 @@ const logToTerminal = (message, type = '') => {
 
 // connect to device
 BLEConnectB.addEventListener('click', () => {
+    /*
+    // TEST DELETE /////////////////////////
+    const arry = [18, 18, 48, 229, 2, 56, 15, 66, 9, 223, 158, 245, 231, 222, 57, 235, 206, 118, 72, 10]; // ^= PDO (nodeID:357; pdoNumber:15; data:357159456852; timestamp:10)
+    BLE.receive(arry);
+    const arry2 = [18, 9, 48, 12, 56, 15, 66, 1, 215, 0, 0]; // ^= PDO (nodeID:12; pdoNumber:15; data:17; timestamp:18)
+    BLE.receive(arry2);
+    ///////////////////////////////////////
+    */
+
+
     BLEConnectB.innerHTML = 'Bluetooth Connect';
     BLE.connect().
         then(() => {
@@ -140,7 +151,7 @@ BLESendB.addEventListener('click', () => {
     BLESendT.value = '';*/
 });
 
-// recive handler (Terminal)
+// recive handler
 BLE.receive = function (buffer) {
     if (GUIContFA.hidden == false || GUIContSA.hidden == false) { // If PB-Com is on 
         var MessageWrapper = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge.MessageWrapper");
@@ -150,10 +161,10 @@ BLE.receive = function (buffer) {
             return false;
         }
         for (x = 0; x < GUIContFA.childElementCount; x++) {
-            if (GUICont.children[x].nodeName == "FORM") {
-                if (Outermessage[GUICont.children[x].id]) {
-                    var Innermessage = Outermessage[GUICont.children[x].id];
-                    var text = "" + Innermessage.name + "\n\n";
+            if (GUIContFA.children[x].nodeName == "FORM") {
+                if (Outermessage[GUIContFA.children[x].id]) {
+                    var Innermessage = Outermessage[GUIContFA.children[x].id];
+                    var text = "" + GUIContFA.children[x].id + "\n\n";
 
                     for (var key in Innermessage) {
                         if (key != "constructor" && key != "toJSON" && key != "$type") text = text + key + " : " + Innermessage[key] + " ;\n";
@@ -248,7 +259,7 @@ function FormularPBFunction(Formular) {
         //errMsg = MessageWrapper.verify(omessage);
         var buffer = MessageWrapper.encode(omessage).finish();
         //alert("buffer" + buffer);        
-        //debugger;
+        debugger;
         BLE.send(buffer);
     } catch (errMsg) {
         //alert("ERROR/n" + errMsg);
