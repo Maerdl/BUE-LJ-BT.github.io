@@ -263,7 +263,7 @@ function FormularPBFunction(Formular) {
         //errMsg = MessageWrapper.verify(omessage);
         var buffer = MessageWrapper.encode(omessage).finish();
         //alert("buffer" + buffer);        
-        debugger;
+        //debugger;
         BLE.send(buffer);
     } catch (errMsg) {
         //alert("ERROR/n" + errMsg);
