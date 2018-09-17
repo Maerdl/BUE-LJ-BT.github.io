@@ -9,7 +9,6 @@ self.addEventListener('install', function (e) {
                 'images/Buerkert_Logo.png',
                 'StyleSheet.css',
                 'Page1Logic.js',
-                'BluetoothTerminal.js',
                 'Bluetooth_Transfer_Protobuf.js',
                 'protobuf/protobuf.js',
                 'libaries/qr-scanner/qr-scanner-worker.min.js',

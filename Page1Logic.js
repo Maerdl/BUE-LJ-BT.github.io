@@ -27,7 +27,6 @@ const GUIContFA = document.getElementById('GUIContainerFullAccess');
 const GUIContSA = document.getElementById('GUIContainerSimpleAccess');
 const TermCont = document.getElementById('TerminalContainer');
 let BLE = new Bluetooth_Send_Protobuf();
-//let BLE = new BluetoothTerminal();
 
 
 // Scroll the Terminal down
