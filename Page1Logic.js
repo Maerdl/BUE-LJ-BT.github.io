@@ -176,7 +176,9 @@ BLE.receive = function (buffer) {
             }
         }
     } else if (document.getElementById('TerminalContainer').hidden == false) { // If Term is on
-        logToTerminal(BLENameLabel.innerHTML + new TextDecoder("utf-8").decode(buffer));
+        var a = TextDecoder("utf-8");
+        var b = a.decode(buffer);
+        logToTerminal(BLENameLabel.innerHTML + b);
     }
     return true;
     /*
