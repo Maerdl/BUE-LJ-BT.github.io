@@ -323,8 +323,6 @@ class Bluetooth_Send_Protobuf {
         debugger;
         if (this.receive(this._receiveBuffer) === true) {
             this._receiveBuffer = null;
-        } else {
-
         }
 
 
