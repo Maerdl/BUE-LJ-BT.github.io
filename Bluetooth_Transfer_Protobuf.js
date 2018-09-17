@@ -301,68 +301,13 @@ class Bluetooth_Send_Protobuf {
    * @param {Object} event
    * @private
    */
-    _handleCharacteristicValueChanged(event) {
-
-        debugger;
-        var x1 = event.target;
-        var y = x1.value;
-        var z0 = y.getInt8(0);
-        var z1 = y.getInt8(1);
-        var z2 = y.getInt8(2);
-        debugger;
-
-       /* var x = 0;
-        if (this._receiveBuffer === null) {
-            this._receiveBuffer[0] = event.target.value.getInt8(x);
-            x++;
-        }*/
+    _handleCharacteristicValueChanged(event) {        
         for (var x = 0 ; x < event.target.value.byteLength; x++) {
             this._receiveBuffer.push(event.target.value.getInt8(x));
         }
-
-        debugger;
         if (this.receive(this._receiveBuffer) === true) {
             this._receiveBuffer = [];
         }
-
-
-
-
-        /*this._receiveBuffer += event.target.value;
-        if ((new Date() - this._timestamp) < 1000) {
-            try {
-                //var MessageWrapper = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge.MessageWrapper");
-                var decodedMsg = protobuf.parse(GetProto())
-                                    .root.lookupType("CanOpenBridge.MessageWrapper")
-                                    .decode(this._receiveBuffer);
-
-
-
-                //MessageWrapper.verify(this._receiveBuffer);
-                //this.receive_PB(this._receiveBuffer);
-            }
-            catch (err) {
-                
-            }
-        } else {
-            this.receive(this._receiveBuffer);
-        }
-        this._timestamp = new Date();*/
-
-      
-      /*
-    for (let c of value) {
-      if (c === this._receiveSeparator) {
-        let data = this._receiveBuffer.trim();
-        this._receiveBuffer = '';
-
-        if (data) {
-          this.receive(data);
-        }
-      } else {
-        this._receiveBuffer += c;
-      }
-    }*/
   }
 
   /*

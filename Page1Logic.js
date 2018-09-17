@@ -139,6 +139,33 @@ BLESendB.addEventListener('click', () => {
 
 // recive handler (Terminal)
 BLE.receive = function (buffer) {
+    if (GUIContFA.hidden == false || GUIContSA.hidden == false) { // If PB-Com is on 
+        var MessageWrapper = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge.MessageWrapper");
+        try {
+            var Outermessage = MessageWrapper.decode(buffer);
+        } catch{
+            return false;
+        }
+        for (x = 0; x < GUIContFA.childElementCount; x++) {
+            if (GUICont.children[x].nodeName == "FORM") {
+                if (Outermessage[GUICont.children[x].id]) {
+                    var Innermessage = Outermessage[GUICont.children[x].id];
+                    var text = "" + Innermessage.name + "\n\n";
+
+                    for (var key in Innermessage) {
+                        if (key != "constructor" && key != "toJSON" && key != "$type") text = text + key + " : " + Innermessage[key] + " ;\n";
+                    }
+
+                    alert("Decoded protobuf: \n" + text);
+                    break;
+                }
+            }
+        }
+    } else if (document.getElementById('TerminalContainer').hidden == false) { // If Term is on
+        logToTerminal(BLENameLabel.innerHTML + new TextDecoder("utf-8").decode(buffer););
+    }
+    return true;
+    /*
     if (GUIContFA.hidden == false || GUIContSA.hidden == false) {
         var x = 0;
         var MessageWrapper = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge.MessageWrapper");
@@ -179,7 +206,7 @@ BLE.receive = function (buffer) {
             logToTerminal(BLENameLabel.innerHTML + 'No Valid Protobuf');
             console.log('Not a valide protobuf message');
         }
-    }
+    }*/
 };
 
 /*END-----------------Bluetooth-------------------------------------------------------*/
