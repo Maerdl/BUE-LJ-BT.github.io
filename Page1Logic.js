@@ -177,7 +177,7 @@ BLE.receive = function (buffer) {
         }
     } else if (document.getElementById('TerminalContainer').hidden == false) { // If Term is on
         var a = new TextDecoder("utf-8");
-        var b = a.decode(buffer);
+        var b = a.encoding(buffer);
         logToTerminal(BLENameLabel.innerHTML + b);
     }
     return true;
