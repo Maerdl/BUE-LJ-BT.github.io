@@ -313,7 +313,7 @@ class Bluetooth_Send_Protobuf {
 
         var x = 0;
         if (this._receiveBuffer === null) {
-            this._receiveBuffer = event.target.value.getInt8(x);
+            this._receiveBuffer[0] = event.target.value.getInt8(x);
             x++;
         }
         for ( ; x < event.target.value.byteLength; x++) {
