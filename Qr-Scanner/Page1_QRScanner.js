@@ -18,9 +18,15 @@ const scanner = new QrScanner(video, result => setResult(camQrResult, result));
 
 QREnableButton.addEventListener('click', () => {
     if (QRAll.hidden == true) {
-        QRAll.hidden = false;
-        QREnableButton.innerHTML = 'Close QR Scanner';
-        scanner.start();
+        scanner.start().
+            then(() => {
+                QRAll.hidden = false;
+                QREnableButton.innerHTML = 'Close QR Scanner';                
+            })
+            .catch(e => {
+                console.log('QR ERROR : ' + e);
+                QREnableButton.innerHTML = e.toString();
+            });
     } else {
         QRAll.hidden = true;
         QREnableButton.innerHTML = 'Use QR Scanner';
