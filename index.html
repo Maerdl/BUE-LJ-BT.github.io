@@ -29,8 +29,8 @@
     </div>
     <div class="Main">
         <h1>BLE Connect</h1>
-        <button type="button" id="Connect" style="width:100%">Connect</button>
-        <div id="IfConnected">
+        <button type="button" id="Connect" style="width:100%">Bluetooth Connect</button>
+        <div id="IfConnected" hidden="hidden">
             <button id="Disconnect" style="width:100%">Disconnect</button>
             <button id="GUIButtonSimpleAccess" style="width:33.33%;float:left">Read</button>
             <button id="GUIButtonFullAccess" style="width:33.33%;float:left">All messages </button>
@@ -180,8 +180,8 @@
 
         <p><br /><br /></p>
 
-        <button id="qr-Button">Use QR</button>
-        <div id="qr-Container">
+        <button id="qr-Button" style="width:100%">Use QR Scanner</button>
+        <div id="qr-Container" hidden="hidden">
             <h1><br />Stream from camera:</h1>
             <div>
                 <video muted autoplay playsinline id="qr-video"></video>

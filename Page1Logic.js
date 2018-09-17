@@ -43,7 +43,7 @@ const logToTerminal = (message, type = '') => {
 
 // connect to device
 BLEConnectB.addEventListener('click', () => {
-    BLEConnectB.innerHTML = 'Connect';
+    BLEConnectB.innerHTML = 'Bluetooth Connect';
     BLE.connect().
         then(() => {
             document.getElementById('IfConnected').hidden = false;
