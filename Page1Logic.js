@@ -103,7 +103,10 @@ BLESendT.addEventListener('keyup', e => {
 // send data to device  (Terminal)
 BLESendB.addEventListener('click', () => {
     logToTerminal(('OUT :&emsp;' + BLESendT.value), 'out');
-    BLE.send(new TextEncoder.encode(BLESendT.value));
+    debugger;
+    var a = new TextEncoder();
+    var b = a.encode(BLESendT.value);
+    BLE.send(b);
     BLESendT.value = '';
     BLESendT.focus();
 
