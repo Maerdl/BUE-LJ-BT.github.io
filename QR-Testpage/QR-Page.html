@@ -11,7 +11,7 @@
         }
 
         hr {
-            margin-top: 32px;
+            margin-top: 64px;
         }
 
         input[type="file"] {
@@ -61,9 +61,14 @@
 
         // ####### Web Cam Scanning #######
 
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        setResult(camQrResult, "Hallo des geht");
+        debugger;
+        ////////////////////////////////////////////////////////////////////////////////////////////
+
+
         const scanner = new QrScanner(video, result => setResult(camQrResult, result));
         scanner.start();
-
 
         // ####### File Scanning #######
 
