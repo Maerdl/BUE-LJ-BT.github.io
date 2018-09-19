@@ -21,7 +21,8 @@ QREnableButton.addEventListener('click', () => {
         scanner.start().
             then(() => {
                 QRAll.hidden = false;
-                QREnableButton.innerHTML = 'Close QR Scanner';                
+                QREnableButton.classList.remove("inactiveTab");
+                QREnableButton.classList.add("activeTab");      
             })
             .catch(e => {
                 console.log('QR ERROR : ' + e);
@@ -31,5 +32,7 @@ QREnableButton.addEventListener('click', () => {
         QRAll.hidden = true;
         QREnableButton.innerHTML = 'Use QR Scanner';
         scanner.stop();
+        QREnableButton.classList.add("inactiveTab");
+        QREnableButton.classList.remove("activeTab"); 
     }
 });
