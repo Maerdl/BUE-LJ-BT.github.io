@@ -1,13 +1,11 @@
 /**
- * Bluetooth Terminal class.
+ * Bluetooth class.
  */
 class Bluetooth_Send_Protobuf {
   /**
-   * Create preconfigured Bluetooth Terminal instance.
+   * Create preconfigured Bluetooth instance.
    * @param {!(number|string)} [serviceUuid=0xFFE0] - Service UUID
    * @param {!(number|string)} [characteristicUuid=0xFFE1] - Characteristic UUID
-   * @param {string} [receiveSeparator='\n'] - Receive separator
-   * @param {string} [sendSeparator='\n'] - Send separator
    */
   constructor(serviceUuid = 0xFFE0, characteristicUuid = 0xFFE1) {
     // Used private variables.
@@ -19,7 +17,7 @@ class Bluetooth_Send_Protobuf {
     // Bound functions used to add and remove appropriate event handlers.
     this._boundHandleDisconnection = this._handleDisconnection.bind(this);
     this._boundHandleCharacteristicValueChanged =
-    this._handleCharacteristicValueChanged.bind(this);
+		this._handleCharacteristicValueChanged.bind(this);
 
     // Configure with specified parameters.
     this.setServiceUuid(serviceUuid);
@@ -96,7 +94,7 @@ class Bluetooth_Send_Protobuf {
  
   /**
    * Send data to the connected device.
-   * @param {} data - Data
+   * @param {Uint8Array} data - Data
    * @return {Promise} Promise which will be fulfilled when data will be sent or
    *                   rejected if something went wrong
   */
@@ -301,13 +299,13 @@ class Bluetooth_Send_Protobuf {
    * @param {Object} event
    * @private
    */
-    _handleCharacteristicValueChanged(event) {        
-        for (var x = 0 ; x < event.target.value.byteLength; x++) {
-            this._receiveBuffer.push(event.target.value.getInt8(x));
-        }
-        if (this.receive(this._receiveBuffer) === true) {
-            this._receiveBuffer = [];
-        }
+  _handleCharacteristicValueChanged(event) {        
+	for (var x = 0 ; x < event.target.value.byteLength; x++) {
+		this._receiveBuffer.push(event.target.value.getInt8(x));
+	}
+	if (this.receive(this._receiveBuffer) === true) {
+		this._receiveBuffer = [];
+	}
   }
 
   /*

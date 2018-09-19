@@ -25,16 +25,16 @@
     </div>
     <div class="NavMenu">
         <a href="./index.html" class="activeTab">BLE</a>
-        <a href="./About.html">About</a>
+        <a href="./About.html" class="inactiveTab">About</a>
     </div>
     <div class="Main">
         <h1>BLE Connect</h1>
-        <button type="button" id="Connect" style="width:100%">Bluetooth Connect</button>
-        <div id="IfConnected" hidden ="hidden">
-            <button id="Disconnect" style="width:100%">Disconnect</button>
-            <button id="GUIButtonSimpleAccess" style="width:33.33%;float:left">Read</button>
-            <button id="GUIButtonFullAccess" style="width:33.33%;float:left">All messages </button>
-            <button id="TerminalButton" style="width:33.33%;float:left">Terminal</button>
+        <button type="button" id="Connect" style="width:100%"  class="inactiveTab">Bluetooth Connect</button>
+        <div id="IfConnected">
+            <button id="Disconnect" style="width:100%"  class="inactiveTab">Disconnect</button>
+            <button id="GUIButtonSimpleAccess" style="width:33.33%;float:left" class="activeTab">Read</button>
+            <button id="GUIButtonFullAccess" style="width:33.33%;float:left"  class="inactiveTab">All messages </button>
+            <button id="TerminalButton" style="width:33.33%;float:left"  class="inactiveTab">Terminal</button>
 
             <div id="GUIContainerSimpleAccess" class="GUIContainer">
                 <form onsubmit="return (FormularSimpleRead(this) && false)">
@@ -180,7 +180,7 @@
 
         <p><br /><br /></p>
 
-        <button id="qr-Button" style="width:100%">Use QR Scanner</button>
+        <button id="qr-Button" style="width:100%" class="inactiveTab">Use QR Scanner</button>
         <div id="qr-Container" hidden="hidden">
             <h1><br />Stream from camera:</h1>
             <div>

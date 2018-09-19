@@ -82,23 +82,40 @@ GuiButton.addEventListener('click', () => {
     GUIContFA.hidden = false;
     TermCont.hidden = true;
     GUIContSA.hidden = true;
+    GuiButton.classList.remove("inactiveTab");
+    GuiButton.classList.add("activeTab");
+    GuiBSimple.classList.remove("activeTab");
+    GuiBSimple.classList.add("inactiveTab");
+    TermButton.classList.remove("activeTab");
+    TermButton.classList.add("inactiveTab");
 });
 
 GuiBSimple.addEventListener('click', () => {
     GUIContFA.hidden = true;
     TermCont.hidden = true;
     GUIContSA.hidden = false;
+    GuiButton.classList.remove("activeTab");
+    GuiButton.classList.add("inactiveTab");
+    GuiBSimple.classList.remove("inactiveTab");
+    GuiBSimple.classList.add("activeTab");
+    TermButton.classList.remove("activeTab");
+    TermButton.classList.add("inactiveTab");
 });
 
 TermButton.addEventListener('click', () => {
     GUIContFA.hidden = true;
     TermCont.hidden = false;
     GUIContSA.hidden = true;
+    GuiButton.classList.remove("activeTab");
+    GuiButton.classList.add("inactiveTab");
+    GuiBSimple.classList.remove("activeTab");
+    GuiBSimple.classList.add("inactiveTab");
+    TermButton.classList.remove("inactiveTab");
+    TermButton.classList.add("activeTab");
 });
 
 PBMC.addEventListener('change', () => {
-    var i;
-    for (i = 0; i < (PBMC.length - 1); i++)document.getElementById(PBMC.options[i].text).hidden = true;
+    for (var i = 0; i < (PBMC.length - 1); i++)document.getElementById(PBMC.options[i].text).hidden = true;
     document.getElementById(PBMC.options[PBMC.selectedIndex].text).hidden = false;
 });
 
@@ -164,7 +181,9 @@ BLE.receive = function (buffer) {
                         var text = "" + GUIContFA.children[x].id + "\n\n";
 
                         for (var key in Innermessage) {
-                            if (key != "constructor" && key != "toJSON" && key != "$type") text = text + key + " : " + Innermessage[key] + " ;\n";
+                            if (key != "constructor" && key != "toJSON" && key != "$type") {
+								text = text + key + " : " + Innermessage[key] + " ;\n";
+							}
                         }
 
                         alert("Decoded protobuf: \n" + text);
@@ -182,48 +201,6 @@ BLE.receive = function (buffer) {
         return false;
     }
     return true;
-    /*
-    if (GUIContFA.hidden == false || GUIContSA.hidden == false) {
-        var x = 0;
-        var MessageWrapper = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge.MessageWrapper");
-        var buffer = data.split(',');
-        try {
-            var Outermessage = MessageWrapper.decode(buffer);
-        } catch{
-            alert("Incoming message can't be decoded");
-            throw Error("Incoming message can't be decoded");
-        }
-        var GUICont = GUIContFA;
-        for (x = 0; x < GUICont.childElementCount; x++) {
-            if (GUICont.children[x].nodeName == "FORM") {
-                if (Outermessage[GUICont.children[x].id]) {
-                    var Innermessage = Outermessage[GUICont.children[x].id];
-                    var text = "" + Innermessage.name + "\n\n";
-
-                    for (var key in Innermessage) {
-                        if (key != "constructor" && key != "toJSON" && key != "$type") text = text + key + " : " + Innermessage[key] + " ;\n";
-                    }
-
-                    alert("Decoded protobuf: \n" + text);
-                    break;
-                }
-            }
-        }
-    } else if (document.getElementById('TerminalContainer').hidden == false) {
-        logToTerminal(BLENameLabel.innerHTML + ' :&emsp;' + data, 'in');
-        var buffer = data.split(',');
-
-        var root = protobuf.parse(GetProto()).root;
-        var AddNode = root.lookupType("CanOpenBridge.AddNode");
-
-        try {
-            var message2 = AddNode.decode(buffer);
-            logToTerminal(BLENameLabel.innerHTML + 'Protobuf Decoded');
-        } catch{
-            logToTerminal(BLENameLabel.innerHTML + 'No Valid Protobuf');
-            console.log('Not a valide protobuf message');
-        }
-    }*/
 };
 
 /*END-----------------Bluetooth-------------------------------------------------------*/
