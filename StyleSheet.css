@@ -154,3 +154,13 @@ select {
 .inactiveTab {
     background-color: var(--Buerkert-Blue);
 }
+
+h2{
+    padding-left: 5%;
+}
+h3 {
+    padding-left: 10%;
+}
+p{
+    padding-left: 15%;
+}
