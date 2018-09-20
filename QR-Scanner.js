@@ -14,8 +14,8 @@ function scan(content) {
 
 
 Instascan.Camera.getCameras().then((cam) => {
-    cameras = cam;
-    if (cameras.length > 0) {
+    if (cam.length > 0) {
+        cameras = cam;
         button.addEventListener('click', () => {
             if (container.hidden) {
                 try {
@@ -43,4 +43,6 @@ Instascan.Camera.getCameras().then((cam) => {
     } else {
         button.innerHTML = 'No Camera found.';
     }
+}).catch(function (e) {
+    console.log("Error in getCameras: "+e);
 });
