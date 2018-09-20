@@ -43,4 +43,6 @@ Instascan.Camera.getCameras().then((cam) => {
     } else {
         button.innerHTML = 'No Camera found.';
     }
+}).catch(function (e) {
+    console.log("Error in getCameras: "+e);
 });
