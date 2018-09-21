@@ -4,7 +4,7 @@ const video = document.getElementById('qr-video');
 const Erg = document.getElementById('qr-result');
 const camchan = document.getElementById('qr-cam-change');
 
-let scanner = new Instascan.Scanner({ video: video , mirror: false});
+let scanner = new Instascan.Scanner({ video: video, mirror: false, scanPeriod: 5});
 let cameras;
 var camNr = 0;
 
@@ -24,7 +24,7 @@ Instascan.Camera.getCameras().then((cam) => {
                     scanner.addEventListener('scan', (content) => {
                         result.textContent = content;
                     });*/
-                    scanner.addListener('scan', function (content) {
+                    scanner.addListener('scan', function (content, image) {
                         console.log("QR-Scan: " + content);
                         Erg.innerHTML(content);
                     });
