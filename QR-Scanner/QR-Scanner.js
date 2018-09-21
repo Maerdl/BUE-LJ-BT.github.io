@@ -25,7 +25,8 @@ Instascan.Camera.getCameras().then((cam) => {
                         result.textContent = content;
                     });*/
                     scanner.addListener('scan', function (content) {
-                        console.log(content);
+                        console.log("QR-Scan: " + content);
+                        result.innerHTML(content);
                     });
                     scanner.start(cameras[camNr]);
                 } catch (err) {
