@@ -15,14 +15,19 @@ var camNr = 0;
 Instascan.Camera.getCameras().then((cam) => {
     if (cam.length > 0) {
         cameras = cam;
+        camNr = cam.length - 1;         // ==> back camera on smartphone
         button.addEventListener('click', () => {
             if (container.hidden) {
                 try {
                     container.hidden = false;
-                    scanner.start(cameras[camNr]);
+                    /*scanner.start(cameras[camNr]);
                     scanner.addEventListener('scan', (content) => {
                         result.textContent = content;
+                    });*/
+                    scanner.addListener('scan', function (content) {
+                        console.log(content);
                     });
+                    scanner.start(cameras[camNr]);
                 } catch (err) {
                     console.log("Error in QR-Start: " + err);
                 }
