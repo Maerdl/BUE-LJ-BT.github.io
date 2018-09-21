@@ -1,7 +1,7 @@
 ﻿const button = document.getElementById('qr-Button');
 const container = document.getElementById('qr-Container');
 const video = document.getElementById('qr-video');
-const result = document.getElementById('qr-result');
+const Erg = document.getElementById('qr-result');
 const camchan = document.getElementById('qr-cam-change');
 
 let scanner = new Instascan.Scanner({ video: video , mirror: false});
@@ -15,7 +15,7 @@ var camNr = 0;
 Instascan.Camera.getCameras().then((cam) => {
     if (cam.length > 0) {
         cameras = cam;
-        camNr = cam.length - 1;         // ==> back camera on smartphone
+        camNr = cam.length - 1;         // ==> back camera (on smartphone)
         button.addEventListener('click', () => {
             if (container.hidden) {
                 try {
@@ -26,7 +26,7 @@ Instascan.Camera.getCameras().then((cam) => {
                     });*/
                     scanner.addListener('scan', function (content) {
                         console.log("QR-Scan: " + content);
-                        result.innerHTML(content);
+                        Erg.innerHTML(content);
                     });
                     scanner.start(cameras[camNr]);
                 } catch (err) {
