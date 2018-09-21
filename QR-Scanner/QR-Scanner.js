@@ -4,7 +4,7 @@ const video = document.getElementById('qr-video');
 const result = document.getElementById('qr-result');
 const camchan = document.getElementById('qr-cam-change');
 
-let scanner = new Instascan.Scanner({ video: video });
+let scanner = new Instascan.Scanner({ video: video , mirror: false});
 let cameras;
 var camNr = 0;
 
