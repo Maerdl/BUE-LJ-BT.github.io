@@ -19,10 +19,10 @@ Instascan.Camera.getCameras().then((cam) => {
             if (container.hidden) {
                 try {
                     container.hidden = false;
+                    scanner.start(cameras[camNr]);
                     scanner.addEventListener('scan', (content) => {
                         result.textContent = content;
                     });
-                    scanner.start(cameras[camNr]);
                 } catch (err) {
                     console.log("Error in QR-Start: " + err);
                 }
