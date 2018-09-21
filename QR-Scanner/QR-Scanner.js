@@ -8,10 +8,9 @@ let scanner = new Instascan.Scanner({ video: video });
 let cameras;
 var camNr = 0;
 
-function scan(content) {
+/*var scan = function(content) {
     result.textContent = content;
-}
-
+}*/
 
 Instascan.Camera.getCameras().then((cam) => {
     if (cam.length > 0) {
@@ -20,7 +19,9 @@ Instascan.Camera.getCameras().then((cam) => {
             if (container.hidden) {
                 try {
                     container.hidden = false;
-                    scanner.addEventListener('scan', scan(content));
+                    scanner.addEventListener('scan', (content) => {
+                        result.textContent = content;
+                    });
                     scanner.start(cameras[camNr]);
                 } catch (err) {
                     console.log("Error in QR-Start: " + err);
@@ -30,10 +31,10 @@ Instascan.Camera.getCameras().then((cam) => {
                 container.hidden = true;
             }
         });
-        if (cameras.length > 1) {
+        if (cam.length > 1) {
             camchan.hidden = false;
             camchan.addEventListener('click', () => {
-                scanner.stop(cameras[camNr]).then(() => {
+                scanner.stop().then(() => {
                     camNr++;
                     if (camNr >= cameras.length) camNr = 0;
                     scanner.start(cameras[camNr]);
