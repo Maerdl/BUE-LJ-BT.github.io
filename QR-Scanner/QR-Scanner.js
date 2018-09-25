@@ -1,4 +1,6 @@
-﻿const button = document.getElementById('qr-Button');
+﻿Ergebnis.innerHTML("P 0");
+
+const button = document.getElementById('qr-Button');
 const container = document.getElementById('qr-Container');
 const video = document.getElementById('qr-video');
 const Ergebnis = document.getElementById('qr-result');
@@ -11,10 +13,15 @@ var camNr = 0;
 /*var scan = function(content) {
     result.textContent = content;
 }*/
+
+Ergebnis.innerHTML("P 1");
+
 scanner.addListener('scan', function (content) {
     console.log("QR-Scan: " + content);
     Ergebnis.innerHTML(content);
 });
+
+Ergebnis.innerHTML("P 2");
 
 Instascan.Camera.getCameras().then((cam) => {
     if (cam.length > 0) {
@@ -57,3 +64,5 @@ Instascan.Camera.getCameras().then((cam) => {
 }).catch(function (e) {
     console.log("Error in getCameras: "+e);
 });
+
+Ergebnis.innerHTML("P 3");
