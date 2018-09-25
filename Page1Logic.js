@@ -26,6 +26,7 @@ const TermButton = document.getElementById('TerminalButton');
 const GUIContFA = document.getElementById('GUIContainerFullAccess');
 const GUIContSA = document.getElementById('GUIContainerSimpleAccess');
 const TermCont = document.getElementById('TerminalContainer');
+
 let BLE = new Bluetooth_Send_Protobuf();
 
 
