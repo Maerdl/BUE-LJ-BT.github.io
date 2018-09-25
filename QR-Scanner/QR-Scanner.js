@@ -12,6 +12,7 @@ var camNr = 0;
 scanner.addListener('scan', function (content) {
     console.log("QR-Scan: " + content);
     Ergebnis.innerHTML = content;
+    alert("Scanned OR-Code: \n" + content);
 });
 
 
