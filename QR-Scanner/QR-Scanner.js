@@ -12,14 +12,14 @@ var camNr = 0;
     result.textContent = content;
 }*/
 
-Ergebnis.innerHTML("P 1");
+Ergebnis.innerHTML = "P 1";
 
 scanner.addListener('scan', function (content) {
     console.log("QR-Scan: " + content);
-    Ergebnis.innerHTML(content);
+    Ergebnis.innerHTML = content;
 });
 
-Ergebnis.innerHTML("P 2");
+Ergebnis.innerHTML = "P 2";
 
 Instascan.Camera.getCameras().then((cam) => {
     if (cam.length > 0) {
