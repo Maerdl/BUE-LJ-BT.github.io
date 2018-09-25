@@ -16,7 +16,7 @@ self.addEventListener('install', function (e) {
             ]).then(function (cache) {
                 self.skipWaiting();
             });
-        });
+        })
     );
 });
 
