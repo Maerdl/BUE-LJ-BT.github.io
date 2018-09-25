@@ -24,6 +24,7 @@ Instascan.Camera.getCameras().then((cam) => {
             if (container.hidden) {
                 try {
                     container.hidden = false;
+                    button.innerHTML = "Close Camera";
                     scanner.start(cameras[camNr]);
                 } catch (err) {
                     console.log("Error in QR-Start: " + err);
@@ -31,6 +32,7 @@ Instascan.Camera.getCameras().then((cam) => {
             } else {
                 scanner.stop(cameras[camNr]);
                 container.hidden = true;
+                button.innerHTML = "Use QR Scanner";
             }
         });
         if (cam.length > 1) {
