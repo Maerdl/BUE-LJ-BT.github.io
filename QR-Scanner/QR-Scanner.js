@@ -63,4 +63,4 @@ Instascan.Camera.getCameras().then((cam) => {
     console.log("Error in getCameras: "+e);
 });
 
-Ergebnis.innerHTML("P 3");
+Ergebnis.innerHTML = "P 3";
