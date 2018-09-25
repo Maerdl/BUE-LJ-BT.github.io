@@ -31,23 +31,3 @@ self.addEventListener('fetch', function (e) {
         })
     );
 });
-
-
-/*let deferredPrompt;
-//const A2HButton = document.getElementById('Add_to_Homescreen_Button');
-self.addEventListener('beforinstallprompt', e => {
-    e.preventDefault();
-    deferredPrompt = e;
-    A2HButton.hidden = false;
-    console.log(e.request.url);
-    e.prompt();
-    deferredPrompt.userChoice
-        .then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-                console.log('User accepted the A2HS prompt');
-            } else {
-                console.log('User dismissed the A2HS prompt');
-            }
-            deferredPrompt = null;
-        });
-});*/
