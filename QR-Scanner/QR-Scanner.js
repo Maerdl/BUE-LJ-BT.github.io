@@ -1,7 +1,7 @@
 ﻿const button = document.getElementById('qr-Button');
 const container = document.getElementById('qr-Container');
 const video = document.getElementById('qr-video');
-const Erg = document.getElementById('qr-result');
+const Ergebnis = document.getElementById('qr-result');
 const camchan = document.getElementById('qr-cam-change');
 
 let scanner = new Instascan.Scanner({ video: video, mirror: false, scanPeriod: 5});
@@ -11,6 +11,10 @@ var camNr = 0;
 /*var scan = function(content) {
     result.textContent = content;
 }*/
+scanner.addListener('scan', function (content) {
+    console.log("QR-Scan: " + content);
+    Ergebnis.innerHTML(content);
+});
 
 Instascan.Camera.getCameras().then((cam) => {
     if (cam.length > 0) {
@@ -23,11 +27,11 @@ Instascan.Camera.getCameras().then((cam) => {
                     /*scanner.start(cameras[camNr]);
                     scanner.addEventListener('scan', (content) => {
                         result.textContent = content;
-                    });*/
+                    });
                     scanner.addListener('scan', function (content, image) {
                         console.log("QR-Scan: " + content);
-                        Erg.innerHTML(content);
-                    });
+                        Ergebnis.innerHTML(content);
+                    });*/
                     scanner.start(cameras[camNr]);
                 } catch (err) {
                     console.log("Error in QR-Start: " + err);
