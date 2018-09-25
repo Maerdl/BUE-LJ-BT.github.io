@@ -10,9 +10,7 @@ self.addEventListener('install', function (e) {
                 'StyleSheet.css',
                 'Page1Logic.js',
                 'Bluetooth_Transfer_Protobuf.js',
-                'protobuf/protobuf.js',
-                'QR-Scanner/instascan.min.js',
-                'QR-Scanner/QR-Scanner.js'
+                'protobuf/protobuf.js'
             ]).then(function (cache) {
                 self.skipWaiting();
             });
