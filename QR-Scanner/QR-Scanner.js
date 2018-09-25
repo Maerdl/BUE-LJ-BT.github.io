@@ -24,7 +24,7 @@ Instascan.Camera.getCameras().then((cam) => {
             if (container.hidden) {
                 try {
                     container.hidden = false;
-                    button.innerHTML = "Close Camera";
+                    button.innerHTML = "Close camera";
                     scanner.start(cameras[camNr]);
                 } catch (err) {
                     console.log("Error in QR-Start: " + err);
