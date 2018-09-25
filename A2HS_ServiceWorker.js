@@ -5,7 +5,7 @@ self.addEventListener('install', function (e) {
         caches.open(cacheName).then(function (cache) {
             return cache.addAll([
                 'index.html',
-                'About.html',
+                'Help.html',
                 'images/Buerkert_Logo.png',
                 'StyleSheet.css',
                 'Page1Logic.js',
@@ -16,7 +16,7 @@ self.addEventListener('install', function (e) {
             ]).then(function (cache) {
                 self.skipWaiting();
             });
-        })
+        });
     );
 });
 
