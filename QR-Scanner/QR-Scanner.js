@@ -1,6 +1,4 @@
-﻿Ergebnis.innerHTML("P 0");
-
-const button = document.getElementById('qr-Button');
+﻿const button = document.getElementById('qr-Button');
 const container = document.getElementById('qr-Container');
 const video = document.getElementById('qr-video');
 const Ergebnis = document.getElementById('qr-result');
