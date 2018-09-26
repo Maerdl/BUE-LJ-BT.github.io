@@ -17,7 +17,7 @@ scanner.addListener('scan', function (content) {
 
 
 Instascan.Camera.getCameras().then((cam) => {
-    if (cam.length > 0) {
+    if (true) {
         cameras = cam;
         camNr = cam.length - 1;         // ==> back camera (on smartphone)
         button.addEventListener('click', () => {
