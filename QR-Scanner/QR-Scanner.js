@@ -36,7 +36,7 @@ Instascan.Camera.getCameras().then((cam) => {
         throw Error(errMsg);
     var message = PDO.create(payload);
     var buffer = PDO.encode(message).finish();
-    BLE.recive(buffer);
+    BLE.receive(buffer);
             
             if (container.hidden) {
                 try {
