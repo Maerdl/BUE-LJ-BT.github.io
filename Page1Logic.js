@@ -44,16 +44,6 @@ const logToTerminal = (message, type = '') => {
 
 // connect to device
 BLEConnectB.addEventListener('click', () => {
-    /*
-    // TEST DELETE /////////////////////////
-    const arry = [18, 18, 48, 229, 2, 56, 15, 66, 9, 223, 158, 245, 231, 222, 57, 235, 206, 118, 72, 10]; // ^= PDO (nodeID:357; pdoNumber:15; data:357159456852; timestamp:10)
-    BLE.receive(arry);
-    const arry2 = [18, 9, 48, 12, 56, 15, 66, 1, 215, 0, 0]; // ^= PDO (nodeID:12; pdoNumber:15; data:17; timestamp:18)
-    BLE.receive(arry2);
-    ///////////////////////////////////////
-    */
-
-
     BLEConnectB.innerHTML = 'Bluetooth Connect';
     BLE.connect().
         then(() => {
@@ -137,35 +127,6 @@ BLESendB.addEventListener('click', () => {
     BLE.send(b);
     BLESendT.value = '';
     BLESendT.focus();
-
-    /*
-    var root = protobuf.parse(GetProto()).root;
-    var AddNode = root.lookupType("CanOpenBridge.AddNode");
-
-    // Exemplary payload
-    var payload = {
-        nodeId: 18,
-        deviceStatus: 12
-    };
-    var errMsg = AddNode.verify(payload);
-    if (errMsg)
-        throw Error(errMsg);
-    var message = AddNode.create(payload);
-    var buffer = AddNode.encode(message).finish();
-
-
-    // Decode Again (For Test)
-    var message2 = AddNode.decode(buffer);
-
-
-
-
-
-    logToTerminal(('Buffer :&emsp;' + buffer), 'out');
-    //BLE.send(buffer);
-    BLE.sendByte(buffer);
-    logToTerminal(JSON.stringify(message2), 'out');
-    BLESendT.value = '';*/
 });
 
 // recive handler
@@ -237,15 +198,12 @@ function FormularPBFunction(Formular) {
         errMsg = MessageWrapper.verify(Outerpayload);
 
         var omessage = MessageWrapper.create(Outerpayload);
-        //errMsg = MessageWrapper.verify(omessage);
+
         var buffer = MessageWrapper.encode(omessage).finish();
-        //alert("buffer" + buffer);        
-        //debugger;
+
         BLE.send(buffer);
     } catch (errMsg) {
-        //alert("ERROR/n" + errMsg);
         logToTerminal("ERROR in FormularPBFunction : " + errMsg);
-        //debugger;
     }
     return false;
 }
@@ -275,24 +233,6 @@ function FormularSimpleRead(Formular) {
     }
     return false;
 }
-
-/*
-function unpack(str) {
-    var bytes = [];
-    for (var i = 0; i < str.length; i++) {
-        var char = str.charCodeAt(i);
-        //bytes.push(char >>> 8);
-        bytes.push(char & 0xFF);
-    }
-    /*for (var i = 0; i < str.length; i += 2) {
-        var char1 = str.charCodeAt(i);
-        var char2 = str.charCodeAt(i + 1);
-        var val1 = (char1 > 47 && char1 < 58) * (char1 - 48) + (char1 > 96 && char1 < 103) * (char1 - 87);
-        var val2 = (char2 > 47 && char2 < 58) * (char2 - 48) + (char2 > 96 && char2 < 103) * (char2 - 87);
-        bytes.push(val1 * 16 + val2);
-    }+/
-    return bytes;
-}*/
 
 // file wont be installd to homescreen but function does
 function GetProto() {
