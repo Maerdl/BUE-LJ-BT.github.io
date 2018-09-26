@@ -1,4 +1,4 @@
-const button = document.getElementById('qr-Button');
+﻿const button = document.getElementById('qr-Button');
 const container = document.getElementById('qr-Container');
 const video = document.getElementById('qr-video');
 const Ergebnis = document.getElementById('qr-result');
@@ -17,44 +17,10 @@ scanner.addListener('scan', function (content) {
 
 
 Instascan.Camera.getCameras().then((cam) => {
-    if (true) {
+    if (cam.length > 0) {
         cameras = cam;
         camNr = cam.length - 1;         // ==> back camera (on smartphone)
         button.addEventListener('click', () => {
-            
-            var PBTitle = 'PDO';
-        var InnerMessage = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge." + PBTitle);
-        var n = 0;
-            // Exemplary payload
-    var payload = {
-        nodeId: 357,
-        pdoNumber: 15,
-        data: '357159456852',
-        timestamp: 10
-    };
-      
-
-        var errMsg = InnerMessage.verify(payload);
-
-        var Outerpayload = [];
-        Outerpayload[PBTitle] = InnerMessage.create(payload);
-
-        var MessageWrapper = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge.MessageWrapper");
-        errMsg = MessageWrapper.verify(Outerpayload);
-
-        var omessage = MessageWrapper.create(Outerpayload);
-        //errMsg = MessageWrapper.verify(omessage);
-        var buffer = MessageWrapper.encode(omessage).finish();
-        alert("buffer : " + buffer);  
-        /*
-        var buffer = [];
-        for(var x = 0; x < buf.length - 2; x++)buffer[x] = buf[x];     
-        alert("buffer : "+ buffer) ;*/
-        //debugger;
-        var MessageWrapper = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge.MessageWrapper");
-        var Outermessage = MessageWrapper.decode(buffer);
-        BLE.receive(buffer);
-            
             if (container.hidden) {
                 try {
                     container.hidden = false;
