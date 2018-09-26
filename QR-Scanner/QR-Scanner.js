@@ -21,22 +21,33 @@ Instascan.Camera.getCameras().then((cam) => {
         cameras = cam;
         camNr = cam.length - 1;         // ==> back camera (on smartphone)
         button.addEventListener('click', () => {
-    var root = protobuf.parse(GetProto()).root;
-    var PDO = root.lookupType("CanOpenBridge.PDO");
-
-    // Exemplary payload
+            
+            var PBTitle = 'PDO';
+        var InnerMessage = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge." + PBTitle);
+        var n = 0;
+            // Exemplary payload
     var payload = {
         nodeId: 18,
         pdoNumber: 12,
         data: "Dataset",
         timestamp: 958753
     };
-    var errMsg = PDO.verify(payload);
-    if (errMsg)
-        throw Error(errMsg);
-    var message = PDO.create(payload);
-    var buffer = PDO.encode(message).finish();
-    BLE.receive(buffer);
+      
+
+        var errMsg = InnerMessage.verify(payload);
+
+        var Outerpayload = [];
+        Outerpayload[PBTitle] = InnerMessage.create(payload);
+
+        var MessageWrapper = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge.MessageWrapper");
+        errMsg = MessageWrapper.verify(Outerpayload);
+
+        var omessage = MessageWrapper.create(Outerpayload);
+        //errMsg = MessageWrapper.verify(omessage);
+        var buffer = MessageWrapper.encode(omessage).finish();
+        //alert("buffer" + buffer);        
+        //debugger;
+        BLE.receive(buffer);
             
             if (container.hidden) {
                 try {
