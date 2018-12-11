@@ -123,7 +123,7 @@ class Bluetooth_Send_Protobuf {
             }
 
             // Write chunk to the characteristic and resolve the promise.
-            this._writeToCharacteristic(this._characteristic, chunk).
+            this._writeToCharacteristic(this._characteristic, chunk[x]).
                 then(resolve).
                 catch(reject);
         }));
