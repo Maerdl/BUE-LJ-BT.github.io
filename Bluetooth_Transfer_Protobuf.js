@@ -102,19 +102,37 @@ class Bluetooth_Send_Protobuf {
     // Return rejected promise immediately if Data is empty.
     if (!Data) {
       return Promise.reject('Data must be not empty');
-    }
+      }  
 
-    // Return rejected promise immediately if there is no connected device.
+
+      let len = Math.ceil(Data.byteLength / this._maxCharacteristicValueLength);
+      let chunks = new Array(len);
+      for (let x = 0; x < len; x++) {
+          chunks[x] = Data.slice(x * this._maxCharacteristicValueLength, (x + 1) * this._maxCharacteristicValueLength);
+      }
+      let promise = this._writeToCharacteristic(this._characteristic, chunks[0]);
+      for (let x = 1; x < len; x++) {
+          promise = promise.then(() => new Promise((resolve, reject) => {
+              // Reject promise if the device has been disconnected.
+              if (!this._characteristic) {
+                  reject('Device has been disconnected');
+              }
+              // Write chunk to the characteristic and resolve the promise.
+              this._writeToCharacteristic(this._characteristic, chunks[x]).
+                  then(resolve).
+                  catch(reject);
+          }));
+      }
+   /* // Return rejected promise immediately if there is no connected device.
     if (!this._characteristic) {
       return Promise.reject('There is no connected device');
     }
-   
-    
-    let chunk = Data.slice(0, this._maxCharacteristicValueLength);
-    let promise = this._writeToCharacteristic(this._characteristic,  chunk);
 
-    for (let x = this._maxCharacteristicValueLength; x < Data.byteLength; x += this._maxCharacteristicValueLength) {
-          chunk = Data.slice(x, (x + this._maxCharacteristicValueLength));
+    let chunk = Data.slice(0, this._maxCharacteristicValueLength);
+    let promise = this._writeToCharacteristic(this._characteristic, chunk);
+
+      for (let x = this._maxCharacteristicValueLength; x < Data.byteLength; x += this._maxCharacteristicValueLength) {
+        chunk = Data.slice(x , (x + this._maxCharacteristicValueLength));
 
         promise = promise.then(() => new Promise((resolve, reject) => {
             // Reject promise if the device has been disconnected.
@@ -123,11 +141,11 @@ class Bluetooth_Send_Protobuf {
             }
 
             // Write chunk to the characteristic and resolve the promise.
-            this._writeToCharacteristic(this._characteristic, chunk[x]).
+            this._writeToCharacteristic(this._characteristic, chunk).
                 then(resolve).
                 catch(reject);
         }));
-      }
+      }*/
 
       return promise;
   }
