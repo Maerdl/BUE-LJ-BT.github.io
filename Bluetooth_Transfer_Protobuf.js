@@ -113,7 +113,7 @@ class Bluetooth_Send_Protobuf {
     let chunk = Data.slice(0, this._maxCharacteristicValueLength);
     let promise = this._writeToCharacteristic(this._characteristic,  chunk);
 
-    for (let x = this._maxCharacteristicValueLength ; x < Data.size; x += this._maxCharacteristicValueLength) {
+    for (let x = this._maxCharacteristicValueLength ; x < Data.byteLength; x += this._maxCharacteristicValueLength) {
         chunk = Data.slice(x, (x + this._maxCharacteristicValueLength));
 
         promise = promise.then(() => new Promise((resolve, reject) => {
