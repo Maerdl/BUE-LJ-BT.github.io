@@ -18,7 +18,7 @@ const BLESendB = document.getElementById('SendButton');
 const BLENameLabel = document.getElementById('DevName');
 const BLETerminal = document.getElementById('Terminal');
 const PBMC = document.getElementById('PBList');
-
+//DebugButton = document.getElementById('TestDebug');
 
 const GuiBSimple = document.getElementById('GUIButtonSimpleAccess');
 const GuiButton = document.getElementById('GUIButtonFullAccess');
@@ -29,7 +29,14 @@ const TermCont = document.getElementById('TerminalContainer');
 
 let BLE = new Bluetooth_Send_Protobuf();
 
-
+var bluetooth_device = null;
+var ble_values;
+var primaryService_Id = 0xFFE0;
+var characterstics_Id = 0xFFE1;
+// DebugButton.addEventListener('click', () => {
+//     document.getElementById('debugText').value = "Hallo Click"
+// });
+ 
 // Scroll the Terminal down
 const scrollElement = (element) => {
     const scrollTop = element.scrollHeight - element.offsetHeight;
@@ -42,23 +49,57 @@ const logToTerminal = (message, type = '') => {
     scrollElement(BLETerminal);
 };
 
+
+
 // connect to device
 BLEConnectB.addEventListener('click', () => {
-    BLEConnectB.innerHTML = 'Bluetooth Connect';
-    BLE.connect().
-        then(() => {
-            document.getElementById('IfConnected').hidden = false;
-            BLEConnectB.hidden = true;
-            BLENameLabel.innerHTML = BLE.getDeviceName() ? BLE.getDeviceName() : 'No Name';
-            BLESendT.value = '';
-            logToTerminal('Connected to : ' + BLENameLabel.innerHTML, 'info');
-        })
-        .catch(e => {
-            console.log('Bluetooth ERROR : ' + e);
-            BLEConnectB.innerHTML = e.toString();
-            logToTerminal(e.toString(), 'err');
+    // BLEConnectB.innerHTML = 'Bluetooth Connect';
+    // BLE.connect().
+    //     then(() => {
+    //         document.getElementById('IfConnected').hidden = false;
+    //         BLEConnectB.hidden = true;
+    //         BLENameLabel.innerHTML = BLE.getDeviceName() ? BLE.getDeviceName() : 'No Name';
+    //         BLESendT.value = '';
+    //         logToTerminal('Connected to : ' + BLENameLabel.innerHTML, 'info');
+    //     })
+    //     .catch(e => {
+    //         console.log('Bluetooth ERROR : ' + e);
+    //         BLEConnectB.innerHTML = e.toString();
+    //         logToTerminal(e.toString(), 'err');
+    //     });
+    navigator.bluetooth.requestDevice({ filters: [{ services: [0xFFE0] }] })
+    .then(device => { bluetooth_device = device;
+        bluetooth_device.gatt.connect()
+        .then(server => {
+            console.log('Getting Battery Service...');
+            return server.getPrimaryService(primaryService_Id);
+          })
+          .then(service => {
+            console.log('Getting Battery Level Characteristic...');
+            return service.getCharacteristic(characterstics_Id);
+          })
+            .then(characteristic => {
+                ble_values = characteristic;
+                characteristic.startNotifications()
+                .then( () => {
+                    characteristic.addEventListener('characteristicvaluechanged',
+                        _bluetoothreceive);
+                });
         });
+    ;})
+        
 });
+
+function _bluetoothreceive(data){
+    console.log("recv");
+    // var _receiveBuffer = event.target.value.buffer();
+    var _receiveBuffer = [];//new ArrayBuffer(data.target.value.byteLength);
+    for (var x = 0 ; x < data.target.value.byteLength; x++) {
+		_receiveBuffer.push(data.target.value.getUint8());
+	}
+    // var sValue = new TextDecoder("utf-8").decode(_receiveBuffer);
+    document.getElementById('debugText').value = _receiveBuffer;
+}
 
 // disconnect from device
 BLEDisconnectB.addEventListener('click', () => {
@@ -121,7 +162,7 @@ BLESendT.addEventListener('keyup', e => {
 // send data to device  (Terminal)
 BLESendB.addEventListener('click', () => {
     logToTerminal(('OUT :&emsp;' + BLESendT.value), 'out');
-    debugger;
+    //debugger;
     var a = new TextEncoder();
     var b = a.encode(BLESendT.value);
     BLE.send(b);
@@ -131,11 +172,13 @@ BLESendB.addEventListener('click', () => {
 
 // recive handler
 BLE.receive = function (buffer) {
+    document.getElementById('debugText').value = buffer.toString();
     try {
         if (GUIContFA.hidden == false || GUIContSA.hidden == false) { // If PB-Com is on 
             var MessageWrapper = protobuf.parse(GetProto()).root.lookupType("CanOpenBridge.MessageWrapper");
             var Outermessage = MessageWrapper.decode(buffer);
-            
+
+            /////////////////////////////////////////////
             for (x = 0; x < GUIContFA.childElementCount; x++) {
                 if (GUIContFA.children[x].nodeName == "FORM") {
                     if (Outermessage[GUIContFA.children[x].id]) {
@@ -153,6 +196,8 @@ BLE.receive = function (buffer) {
                     }
                 }
             }
+            //////////////////////////////////////////////
+
         } else if (document.getElementById('TerminalContainer').hidden == false) { // If Term is on
             var a = new TextDecoder("utf-8");
             var buf = new Uint8Array(buffer).buffer;
