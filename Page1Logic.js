@@ -1,17 +1,54 @@
 ﻿/*BEGIN---------------add to homescreen-------------------------------------------------*/
 // Register the service worker if possible.
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('A2HS_ServiceWorker.js').then(function (reg) {
-        console.log('Successfully registered A2HS service worker', reg);
-    }).catch(function (err) {
-        console.warn('Error whilst registering A2HS service worker', err);
-    });
-}
+// if ('serviceWorker' in navigator) {
+//     navigator.serviceWorker.register('A2HS_ServiceWorker.js').then(function (reg) {
+//         console.log('Successfully registered A2HS service worker', reg);
+//     }).catch(function (err) {
+//         console.warn('Error whilst registering A2HS service worker', err);
+//     });
+// }
 /*END-----------------add to homescreen-------------------------------------------------*/
 
 var jsonstring = '{ "ValueType": "PersistentData",  "name" : "enDevice_BootCounter", "index": 8196, "subindex": 13, "value": 4 }';
-
+var dataarray = [];
 var jsonObject = JSON.parse(jsonstring);
+var transmissionComplete = false;
+
+// var pushData = [0x02, 0x48, 0x6c, 0x6c, 0x6f, 0x03];
+// testData(pushData);
+// testData(pushData);
+
+function testData(data)
+{
+    if( Array.isArray(data) ){
+        data.forEach(element => {
+            dataarray.push(element)
+        })
+    }
+    checkForCompleteJson();
+}
+function checkForCompleteTransmission(){
+    var start = dataarray.findIndex( element => element === 0x02)
+    var end = dataarray.findIndex( element => element === 0x03)
+    if( -1 !=  start && -1 != end){
+        var partial = dataarray.slice(start +1, end);
+        dataarray.splice(start, end-start+1);
+        var buf = new Uint8Array(partial);
+        sValue = new TextDecoder("utf-8").decode(buf);
+        console.log(sValue);
+        if( sValue.includes("Debug:")){
+            var oldvalue = document.getElementById('debugText').value;
+            oldvalue += sValue;
+            document.getElementById('debugText').value = sValue;
+        } else {
+            //must be an json object
+            var obj = JSON.parse(sValue);
+            console.log("Parse json");
+            var content = "<tr><th>" + obj.name + "</th>" + "<th>" + obj.idx + "</th>" + "<th>" + obj.subidx + "</th>" + "<th>" + obj.val + "</th>";
+            persistentContent.innerHTML =  head + content + footer;
+        }
+    }
+}
 
 function getUrlVars() {
     var vars = {};
@@ -25,7 +62,7 @@ function getUrlVars() {
 // Get the controll Elements
 const BLEConnectB = document.getElementById('Connect');
 const BLEDisconnectB = document.getElementById('Disconnect');
-const debugText = document.getElementById('TextContainer');
+const debugText = document.getElementById('debugText');
 const RequestPersistentDataButton = document.getElementById("requestPersistentData");
 
 debugText.hidden = true;
@@ -40,9 +77,9 @@ if( debug === "true" ){
 var persistentContent = document.getElementById("showPersistentContent");
 var head = "<table><tr><th>Name</th><th>Index</th><th>Subindex</th><th>Value</th></tr>";
 var footer = "</table>"
-var content = "<tr><th>" + jsonObject.name + "</th>" + "<th>" + jsonObject.index + "</th>" + "<th>" + jsonObject.subindex + "</th>" + "<th>" + jsonObject.value + "</th>";
+// var content = "<tr><th>" + jsonObject.name + "</th>" + "<th>" + jsonObject.index + "</th>" + "<th>" + jsonObject.subindex + "</th>" + "<th>" + jsonObject.value + "</th>";
 
-persistentContent.innerHTML = head + content + footer;
+// persistentContent.innerHTML = head + content + footer;
 
 let BLE = new Bluetooth_Send_Protobuf();
 
@@ -103,16 +140,12 @@ BLEConnectB.addEventListener('click', () => {
 });
 
 function _bluetoothreceive(data){
-    var dataarray = new Uint8Array(data.target.value.buffer);
-    var sValue = new TextDecoder("utf-8").decode(dataarray);
+    //dataarray.push(data.target.value.buffer);
+    let arr = new Uint8Array(data.target.value.buffer);
+    arr.forEach(  x => { dataarray.push(x) });
+    checkForCompleteTransmission()
+    var sValue = new TextDecoder("utf-8").decode(new Uint8Array(dataarray));
     console.log("Received: ".concat(sValue))
-    if( sValue.includes("Debug:")){
-        var oldvalue = document.getElementById('debugText').value;
-        oldvalue += sValue;
-        document.getElementById('debugText').value = sValue;
-    } else {
-        JSON.parse(sValue);
-    }
 }
 
 // disconnect from device
