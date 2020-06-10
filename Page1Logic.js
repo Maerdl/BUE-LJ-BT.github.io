@@ -45,7 +45,15 @@ function checkForCompleteTransmission(){
             var obj = JSON.parse(sValue);
             console.log("Parse json");
             var content = "<tr><th>" + obj.name + "</th>" + "<th>" + obj.idx + "</th>" + "<th>" + obj.subidx + "</th>" + "<th>" + obj.val + "</th>";
-            persistentContent.innerHTML =  head + content + footer;
+            var newRow = persistentContent.insertRow(-1);
+            var value  = newRow.insertCell(0);
+            value.appendChild(document.createTextNode(obj.val));
+            var subindex  = newRow.insertCell(0);
+            subindex.appendChild(document.createTextNode(obj.subidx));
+            var index  = newRow.insertCell(0);
+            index.appendChild(document.createTextNode(obj.idx));
+            var name  = newRow.insertCell(0);
+            name.appendChild(document.createTextNode(obj.name));
         }
     }
 }
@@ -74,7 +82,7 @@ if( debug === "true" ){
     debugText.hidden = false;
 }
 
-var persistentContent = document.getElementById("showPersistentContent");
+var persistentContent = document.getElementById("persistentDataTable");
 var head = "<table><tr><th>Name</th><th>Index</th><th>Subindex</th><th>Value</th></tr>";
 var footer = "</table>"
 // var content = "<tr><th>" + jsonObject.name + "</th>" + "<th>" + jsonObject.index + "</th>" + "<th>" + jsonObject.subindex + "</th>" + "<th>" + jsonObject.value + "</th>";
@@ -115,6 +123,7 @@ BLEConnectB.addEventListener('click', () => {
     .then(device => { bluetooth_device = device;
         bluetooth_device.gatt.connect()
         .then(server => {
+            persistentContent.innerHTML = "";
             BLEDisconnectB.hidden = false;
             RequestPersistentDataButton.hidden = false;
             BLEConnectB.hidden = true;
