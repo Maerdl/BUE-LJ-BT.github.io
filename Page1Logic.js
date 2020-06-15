@@ -48,9 +48,9 @@ function checkForCompleteTransmission(){
             var value  = newRow.insertCell(0);
             value.appendChild(document.createTextNode(obj.val));
             var subindex  = newRow.insertCell(0);
-            subindex.appendChild(document.createTextNode(obj.subidx));
+            subindex.appendChild(document.createTextNode("0x"+ obj.subidx.toString(16)));
             var index  = newRow.insertCell(0);
-            index.appendChild(document.createTextNode(obj.idx));
+            index.appendChild(document.createTextNode("0x" + obj.idx.toString(16)));
             var name  = newRow.insertCell(0);
             name.appendChild(document.createTextNode(obj.name));
         }
