@@ -44,7 +44,6 @@ function checkForCompleteTransmission(){
             //must be an json object
             var obj = JSON.parse(sValue);
             console.log("Parse json");
-            var content = "<tr><th>" + obj.name + "</th>" + "<th>" + obj.idx + "</th>" + "<th>" + obj.subidx + "</th>" + "<th>" + obj.val + "</th>";
             var newRow = persistentContent.insertRow(-1);
             var value  = newRow.insertCell(0);
             value.appendChild(document.createTextNode(obj.val));
@@ -113,6 +112,10 @@ const logToTerminal = (message, type = '') => {
 };
 
 RequestPersistentDataButton.addEventListener('click', () => {
+    if( persistentContent.tBodies.length != 0 ){
+        var tbody= persistentContent.getElementsByTagName('tbody')[0];
+        persistentContent.removeChild(tbody);
+    }
     _characteristic.writeValue( new TextEncoder().encode("#GetPersistentData#"));
     console.log("Send: #GetPersistentData#" );
 })
