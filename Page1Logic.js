@@ -52,7 +52,11 @@ function checkForCompleteTransmission(){
             var index  = newRow.insertCell(0);
             index.appendChild(document.createTextNode("0x" + obj.idx.toString(16)));
             var name  = newRow.insertCell(0);
-            name.appendChild(document.createTextNode(obj.name));
+            if( obj.name === "undefined"){
+                name.appendChild(document.createTextNode(obj.name));
+            } else {
+                name.appendChild(document.createTextNode("-"));
+            }
         }
     }
 }
@@ -113,8 +117,11 @@ const logToTerminal = (message, type = '') => {
 
 RequestPersistentDataButton.addEventListener('click', () => {
     if( persistentContent.tBodies.length != 0 ){
-        var tbody= persistentContent.getElementsByTagName('tbody')[0];
-        persistentContent.removeChild(tbody);
+        var tbody= persistentContent.getElementsByTagName('tbody')[0].rows;
+        var tablelen = tbody.length;
+        for( var i = 1; i < tablelen; i++){
+            tbody[tablelen - i].remove();
+        }
     }
     _characteristic.writeValue( new TextEncoder().encode("#GetPersistentData#"));
     console.log("Send: #GetPersistentData#" );
@@ -126,7 +133,6 @@ BLEConnectB.addEventListener('click', () => {
     .then(device => { bluetooth_device = device;
         bluetooth_device.gatt.connect()
         .then(server => {
-            persistentContent.innerHTML = "";
             BLEDisconnectB.hidden = false;
             RequestPersistentDataButton.hidden = false;
             BLEConnectB.hidden = true;
