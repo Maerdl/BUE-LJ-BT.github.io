@@ -40,6 +40,11 @@ function checkForCompleteTransmission(){
             var oldvalue = document.getElementById('debugText').value;
             oldvalue += sValue;
             document.getElementById('debugText').value = sValue;
+        } else if ( sValue.includes("Live: ") ) {
+            var n = sValue.search("Live: ")
+            var json = sValue.substr(6);
+            var obj = JSON.parse(json);
+            document.getElementById('liveValue').value= obj.readResults[0].val;
         } else {
             //must be an json object
             var obj = JSON.parse(sValue);
@@ -75,6 +80,7 @@ const BLEConnectB = document.getElementById('Connect');
 const BLEDisconnectB = document.getElementById('Disconnect');
 const debugText = document.getElementById('debugText');
 const RequestPersistentDataButton = document.getElementById("requestPersistentData");
+const RequestLiveDataButton = document.getElementById("requestLiveData");
 
 debugText.hidden = true;
 BLEDisconnectB.hidden = true;
@@ -115,6 +121,42 @@ const logToTerminal = (message, type = '') => {
     scrollElement(BLETerminal);
 };
 
+RequestLiveDataButton.addEventListener( 'click', () => {
+    var jsonrequest = JSON.stringify({ requestId: "laksdj", variables: [ {nid:255, idx:537133058, dtp:8}]});
+    var part1 = new TextEncoder().encode("#GetLiveData# ");
+    var part2 = new TextEncoder().encode(jsonrequest);
+    var r = new Uint8Array( part1.length + part2.length);
+    r.set(part1);
+    r.set(part2, part1.length);
+    send(r);
+    console.log("#GetLiveData# ");
+})
+
+async function send(value)
+{
+    try {
+        await _characteristic.writeValue(new Uint8Array([0x02]));
+    } catch (error) {
+        console.log(error)
+    }
+    var i,j,temparray,chunk = 20;
+    for (i=0,j=value.length; i<j; i+=chunk) {
+        temparray = value.slice(i,i+chunk);
+        console.log(temparray);
+        try {
+            await _characteristic.writeValue(temparray);
+        } catch (error) {
+            console.log(error)
+        }
+        
+    }
+    try {
+        await _characteristic.writeValue(new Uint8Array([0x03]));
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 RequestPersistentDataButton.addEventListener('click', () => {
     if( persistentContent.tBodies.length != 0 ){
         var tbody= persistentContent.getElementsByTagName('tbody')[0].rows;
@@ -123,7 +165,7 @@ RequestPersistentDataButton.addEventListener('click', () => {
             tbody[tablelen - i].remove();
         }
     }
-    _characteristic.writeValue( new TextEncoder().encode("#GetPersistentData#"));
+    send( new TextEncoder().encode("#GetPersistentData#"));
     console.log("Send: #GetPersistentData#" );
 })
 
@@ -135,6 +177,7 @@ BLEConnectB.addEventListener('click', () => {
         .then(server => {
             BLEDisconnectB.hidden = false;
             RequestPersistentDataButton.hidden = false;
+            RequestLiveDataButton.hidden = false;
             BLEConnectB.hidden = true;
             console.log('Connected to BLE Dev');
             return server.getPrimaryService(primaryService_Id);
@@ -172,6 +215,7 @@ BLEDisconnectB.addEventListener('click', () => {
     bluetooth_device.gatt.disconnect();
     BLEDisconnectB.hidden = true;
     RequestPersistentDataButton.hidden = true;
+    RequestLiveDataButton.hidden = false;
     BLEConnectB.hidden = false;
 
 });
