@@ -18,6 +18,31 @@ var transmissionComplete = false;
 // testData(pushData);
 // testData(pushData);
 
+function GetRestServiceUrl() {
+    return 'https://wjqmnmew9d.execute-api.eu-central-1.amazonaws.com/test/templog';
+}
+
+function StoreTempValue(idNo, serNo, tempValue) {
+    try {
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', GetRestServiceUrl() + '?idNo=' + idNo + '&serNo=' + serNo + '&temp=' + tempValue);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                alert('Success!');
+            } else {
+                alert('Request failed! Status code: ' + xhr.status);
+            }
+        };
+        xhr.onerror = function () {
+            alert('Request failed!');
+        };
+        xhr.send();
+    } catch (e) {
+        alert(e);
+    }
+}
+
 function testData(data)
 {
     if( Array.isArray(data) ){
@@ -44,7 +69,8 @@ function checkForCompleteTransmission(){
             var n = sValue.search("Live: ")
             var json = sValue.substr(6);
             var obj = JSON.parse(json);
-            document.getElementById('liveValue').value= obj.readResults[0].val;
+            document.getElementById('liveValue').value= obj.readResults[0].val - 273.15;
+            StoreTempValue(2465364, 9567634, obj.readResults[0].val - 273.15);
         } else {
             //must be an json object
             var obj = JSON.parse(sValue);
