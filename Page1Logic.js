@@ -117,6 +117,44 @@ if( debug === "true" ){
     debugText.hidden = false;
 }
 
+function GetBtn_OnClick() {
+    GetTempValues(2465364, 9567634);
+}
+
+function GetTempValues(idNo, serNo) {
+    try {
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', GetRestServiceUrl() + '?idNo=' + idNo + '&serNo=' + serNo);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                let resultGrid = document.getElementById("iResultGrid");
+                resultGrid.innerText = "";
+
+                let result = JSON.parse(xhr.responseText);
+                for (let tempLog of result) {
+                    let timeDiv = document.createElement('div');
+                    timeDiv.innerText = tempLog.time;
+                    let tempDiv = document.createElement('div');
+                    tempDiv.innerText = tempLog.temp;
+
+                    resultGrid.append(timeDiv);
+                    resultGrid.append(tempDiv);
+                }
+
+            } else {
+                alert('Request failed! Status code: ' + xhr.status);
+            }
+        };
+        xhr.onerror = function () {
+            alert('Request failed!');
+        };
+        xhr.send();
+    } catch (e) {
+        alert(e);
+    }
+}
+
 var persistentContent = document.getElementById("persistentDataTable");
 var head = "<table><tr><th>Name</th><th>Index</th><th>Subindex</th><th>Value</th></tr>";
 var footer = "</table>"

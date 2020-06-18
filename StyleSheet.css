@@ -164,3 +164,14 @@ h3 {
 p{
     padding-left: 15%;
 }
+
+.resultGrid {
+    display: grid;
+    grid-template-columns: 200px 200px;
+    grid-row-gap: 5px;
+}
+.inputGrid {
+    display: grid;
+    grid-template-columns: 200px 200px;
+    grid-row-gap: 10px;
+}
