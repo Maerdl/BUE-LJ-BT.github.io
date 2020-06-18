@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bürkert --> AWS Cloud Test</title>
+</head>
+<body>
+<style type="text/css">
+    .inputGrid {
+        display: grid;
+        grid-template-columns: 200px 200px;
+        grid-row-gap: 10px;
+    }
+
+    .inputGrid.label1 {
+    }
+
+    .inputGrid.label2 {
+        grid-row: 2;
+    }
+
+    .inputGrid.label3 {
+        grid-row: 3;
+    }
+
+    .inputGrid.input1 {
+        grid-column: 2;
+    }
+
+    .inputGrid.input2 {
+        grid-row: 2;
+        grid-column: 2;
+    }
+
+    .inputGrid.input3 {
+        grid-row: 3;
+        grid-column: 2;
+    }
+
+    .inputGrid.storeButton {
+        grid-row: 4;
+        grid-column: 2;
+    }
+
+    .inputGrid.getButton {
+        grid-row: 6;
+        grid-column: 1;
+    }
+
+    .resultGrid {
+        display: grid;
+        grid-template-columns: 200px 200px;
+        grid-row-gap: 5px;
+    }
+</style>
+
+<script>
+
+    function GetRestServiceUrl() {
+        return 'https://wjqmnmew9d.execute-api.eu-central-1.amazonaws.com/test/templog';
+    }
+
+    function StoreBtn_OnClick() {
+        let idNo = document.getElementById("iIdNo").value;
+        let serNo = document.getElementById("iSerNo").value;
+        let tempValue = document.getElementById("iTempValue").value;
+
+        StoreTempValue(idNo, serNo, tempValue);
+    }
+
+    function StoreTempValue(idNo, serNo, tempValue) {
+        try {
+            let xhr = new XMLHttpRequest();
+            xhr.open('POST', GetRestServiceUrl() + '?idNo=' + idNo + '&serNo=' + serNo + '&temp=' + tempValue);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    alert('Success!');
+                } else {
+                    alert('Request failed! Status code: ' + xhr.status);
+                }
+            };
+            xhr.onerror = function () {
+                alert('Request failed!');
+            };
+            xhr.send();
+        } catch (e) {
+            alert(e);
+        }
+    }
+
+    function GetBtn_OnClick() {
+        let idNo = document.getElementById("iIdNo").value;
+        let serNo = document.getElementById("iSerNo").value;
+
+        GetTempValues(idNo, serNo);
+    }
+
+    function GetTempValues(idNo, serNo) {
+        try {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', GetRestServiceUrl() + '?idNo=' + idNo + '&serNo=' + serNo);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    let resultGrid = document.getElementById("iResultGrid");
+                    resultGrid.innerText = "";
+
+                    let result = JSON.parse(xhr.responseText);
+                    for (let tempLog of result) {
+                        let timeDiv = document.createElement('div');
+                        timeDiv.innerText = tempLog.time;
+                        let tempDiv = document.createElement('div');
+                        tempDiv.innerText = tempLog.temp;
+
+                        resultGrid.append(timeDiv);
+                        resultGrid.append(tempDiv);
+                    }
+
+                } else {
+                    alert('Request failed! Status code: ' + xhr.status);
+                }
+            };
+            xhr.onerror = function () {
+                alert('Request failed!');
+            };
+            xhr.send();
+        } catch (e) {
+            alert(e);
+        }
+    }
+
+</script>
+<h1>Bürkert --> AWS Cloud Test</h1>
+<div class="inputGrid">
+    <label class="inputGrid label1">Ident number:</label><input id="iIdNo" type="number" class="inputGrid input1"
+                                                                min="1" max="99999999" step="0" value="2465364">
+    <label class="inputGrid label2">Serial number:</label><input id="iSerNo" type="number" class="inputGrid input2"
+                                                                 min="1" max="99999999" step="0" value="9567634">
+    <label class="inputGrid label3">Current temperature:</label><input id="iTempValue" type="number"
+                                                                       class="inputGrid input3" min="-273" max="999999"
+                                                                       step="0.01" value="20.0">
+    <button class="inputGrid storeButton" onclick="StoreBtn_OnClick()">Store temp value</button>
+    <button class="inputGrid getButton" onclick="GetBtn_OnClick()">Get temp values</button>
+</div>
+<div id="iResultGrid" class="resultGrid" style="margin-top: 10px">
+</div>
+</body>
+</html>
