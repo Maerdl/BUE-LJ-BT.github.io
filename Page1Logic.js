@@ -279,7 +279,7 @@ BLEDisconnectB.addEventListener('click', () => {
     bluetooth_device.gatt.disconnect();
     BLEDisconnectB.hidden = true;
     RequestPersistentDataButton.hidden = true;
-    RequestLiveDataButton.hidden = false;
+    RequestLiveDataButton.hidden = true;
     BLEConnectB.hidden = false;
 
 });

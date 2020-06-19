@@ -33,20 +33,23 @@
         <h1>Bluetooth Connect</h1>
         <button type="button" id="Connect" style="width:100%" class="inactiveTab">Bluetooth Connect</button>
         <button id="Disconnect" style="width:100%" class="inactiveTab">Disconnect</button>
-        <h style="margin-top: 50px;">Persistent data</h>
-        <div id="showPersistentContent" style="margin-top: auto;">
-            <table class="inactiveTab" id="persistentDataTable"><tr><th>Name</th><th>Index</th><th>Subindex</th><th>Value</th></tr></table>
-        </div><br>
-        <button id="requestPersistentData" class="inactiveTab">RequestPersistentData</button><br>
-        <p><br /><br /></p>
-        <button id="requestLiveData" class="inactiveTab" hidden="true">RequestLiveData</button><br/><br/><br/>
-        <div>Live Value: <output id="liveValue"></output></div>
-        <div>
-        <button class="inactiveTab" onclick="GetBtn_OnClick()">Get temp values</button>
-        <div id="iResultGrid" class="resultGrid" style="margin-top: 10px"></div>
+        <div id="showPersistentContent" style="margin-top: 10px; width: 50%; display: grid; align-items: center; float: left;">
+            <button id="requestPersistentData" style="background-color: var(--Buerkert-Blue-light);">RequestPersistentData</button>
+            <h>Persistent data</h>
+            <table id="persistentDataTable" style="margin-top: 10px;"><tr><th>Name</th><th>Index</th><th>Subindex</th><th>Value</th></tr></table>
         </div>
+        <div style="margin-top: 10px; width: 50%; display: grid; align-items: center; float: right;">
+            <button id="requestLiveData" class="inactiveTab" hidden="true">RequestLiveData</button>
+            <h>Live Value</h>
+            <div style="margin-top: 10px;">Temperature: <output id="liveValue"></output></div>
+        </div>
+        <div style="display:grid; align-items: center; float: left; width: 100%;">
+            <button class="inactiveTab" onclick="GetBtn_OnClick()">Get temp values</button>
+            <div id="iResultGrid" class="resultGrid" style="margin-top: 10px"></div>
+        </div>
+        
         <br><output id="debugText">Debug</output>
-        </div>
+        
         <!--<h1>Scan QR-Code</h1>
         <button id="qr-Button" style="width:100%" class="inactiveTab">Use QR Scanner</button>
         <div id="qr-Container" hidden="hidden">
@@ -58,7 +61,7 @@
 
         <p><br /><br /></p>
     </div>
-    <div class="Footer">
+    <div class="Footer" style="float: left; align-items: center;">
         <p><br /><br />&emsp;<b>Bürkert Fluid Control Systems</b> <br />&emsp;Bürkert Werke GmbH & Co. KG<p>
         <p style="float:left">&emsp;</p>
         <a href="https://www.facebook.com/Buerkert.Fluidtechnik"><img src="icon/Facebook.png" alt="Facebook"></a>
