@@ -121,6 +121,24 @@ function GetBtn_OnClick() {
     GetTempValues(2465364, 9567634);
 }
 
+function Send_Value() {
+    var copid = document.getElementById("idx").value;
+    console.log(copid);
+    var dtype = document.getElementById("datatype").value;
+    console.log(dtype);
+    var value = document.getElementById("value").value;
+    console.log(value);
+
+    var part1 = new TextEncoder().encode("#WritePersistent# ");
+    var jsonrequest = JSON.stringify({ requestId: "laksdj", variables: [ {nid:255, idx: Number(copid), dtp: Number(dtype), val: value}]});
+    var part2 = new TextEncoder().encode(jsonrequest);
+    var r = new Uint8Array( part1.length + part2.length);
+    r.set(part1);
+    r.set(part2, part1.length);
+    send(r);
+    
+}
+
 function GetTempValues(idNo, serNo) {
     try {
         let xhr = new XMLHttpRequest();

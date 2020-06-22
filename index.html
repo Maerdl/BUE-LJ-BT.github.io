@@ -44,6 +44,14 @@
             <div style="margin-top: 10px;">Temperature: <output id="liveValue"></output></div>
         </div>
         <div style="display:grid; align-items: center; float: left; width: 100%;">
+            <label>Bues address</label><input id="idx" type="number" class="inputGrid input1" min="1" max="99999999" step="0">
+            <label style="margin-top: 3px;">Datatype</label><select name="datatypes" id="datatype">
+                <option value="7">UINT32</option>
+              </select>
+            <label style="margin-top: 3px;">Value</label><input id="value" type="number" class="inputGrid input1" min="1" max="99999999" step="0">
+            <button class="inactiveTab" style="margin-top: 3px;" onclick="Send_Value()">Write persistent value</button>
+        </div>
+        <div style="margin-top: 10px; display:grid; align-items: center; float: left; width: 100%;">
             <button class="inactiveTab" onclick="GetBtn_OnClick()">Get temp values</button>
             <div id="iResultGrid" class="resultGrid" style="margin-top: 10px"></div>
         </div>
